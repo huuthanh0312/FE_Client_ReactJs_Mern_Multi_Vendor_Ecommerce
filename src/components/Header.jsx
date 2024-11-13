@@ -33,14 +33,23 @@ const Header = () => {
 
   const user = true
   const whishlist_count = 5
-  const categories = ['Laptops', 'Laptops', 'Laptops', 'Laptops']
+  const categories = [
+    'Laptops',
+    'Mobiles',
+    'Speaker',
+    'Top wear',
+    'Foot wear',
+    'Watches',
+    'Home Decor',
+    'Smart Watches'
+  ]
   const [searchValue, setSearchValue] = useState('')
   const [category, setCategory] = useState('')
   return (
     <div className="w-full bg-white">
       {/* Header top */}
       <div className="header-top bg-[#010101] md-lg:hidden">
-        <div className="w-[85%] lg:[w-90%] mx-auto">
+        <div className="w-[90%] mx-auto">
           <div className="flex w-full justify-between items-center h-[45px] text-slate-500">
             <ul className="flex justify-start items-center gap-8 font-semibold text-white">
               <li className="flex relative justify-center items-center text-sm gap-2 after:absolute after:h-[18px] after:w-[2px] after:bg-[#afafaf] after:-right-[16px]">
@@ -117,7 +126,7 @@ const Header = () => {
       {/* End header top */}
       {/* Sidebar header*/}
       <div className="w-white ">
-        <div className="w-[85%] lg:[w-90%] mx-auto">
+        <div className="w-[90%] mx-auto">
           <div className="h-[80px] md-lg:h-[100px] justify-between items-center flex flex-wrap ">
             <div className="md-lg:w-full w-3/12 md-lg:pt-4">
               <div className="flex justify-between items-center">
@@ -241,15 +250,6 @@ const Header = () => {
                 <Link to="/">
                   <img src={`${config.BASE_URL}/logo.png`} alt="Logo" className="w-[80%]" />
                 </Link>
-
-                <div
-                  className="absolute justify-center items-center -right-[20px] p-1 bg-white text-red-600 hover:scale-105 rounded-md hover:shadow-md cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
-                  onClick={() => setShowSidebar(false)}
-                >
-                  <span>
-                    <LuListX size={28} />
-                  </span>
-                </div>
               </div>
               {/*  */}
               <div className="flex justify-start items-center gap-8 font-semibold">
@@ -274,7 +274,7 @@ const Header = () => {
                     <span>
                       <FaUser />
                     </span>
-                    <span>Thanh Nguyen</span>
+                    <span className="text-[#34548d]">Thanh Nguyen</span>
                   </Link>
                 ) : (
                   <Link
@@ -369,7 +369,7 @@ const Header = () => {
                   </span>
                 </div>
                 <div className="flex justify-end flex-col gap-1 text-[#1c1c1c]">
-                  <h2 className="text-sm font-medium ">+(123) 123 1234</h2>
+                  <h2 className="text-sm font-medium text-[#34548d]">+(123) 123 1234</h2>
                   <span className="text-xs font-semibold">Support 24/7</span>
                 </div>
               </div>
@@ -388,7 +388,7 @@ const Header = () => {
       </div>
       {/*End Sidebar */}
       {/* Category and search */}
-      <div className="w-[85%] lg:[w-90%] mx-auto">
+      <div className="w-[90%] mx-auto">
         <div className="flex w-full flex-wrap md-lg:gap-8">
           <div className="w-3/12 md-lg:w-full">
             <div className="bg-white relative">
@@ -429,54 +429,53 @@ const Header = () => {
             </div>
           </div>
           {/* End Category   */}
-          <div className="w-9/12 pl-12 md-lg:pl-0 md-lg:w-full">
-            <div className="flex flex-wrap w-full justify-beewten items-center md-lg:gap-6">
-              <div className="w-8/12 md-lg:w-full">
-                <div className="flex border h-[50px] items-center gap-6">
-                  <div className="relative after:absolute after:h-[25px] after:w-[2px] after:bg-[#afafaf] after:-right-[15px] md:hidden">
-                    <select
-                      name=""
-                      id=""
-                      onChange={(e) => setCategory(e.target.value)}
-                      className="w-auto text-slate-600 font-semibold bg-transparent px-2 h-full outline-0 border-none"
-                    >
-                      <option value="">Select Category</option>
-                      {categories.map((c, i) => (
-                        <option value={c}>{c}</option>
-                      ))}
-                    </select>
-                  </div>
-                  {/*  */}
-                  <input
-                    type="text"
-                    className="w-full relative bg-transparent text-slate-500 outline-0 px-3 h-full"
-                    onChange={(e) => setSearchValue(e.target.value)}
+
+          <div className=" w-7/12 md-lg:w-full pl-2 md-lg:pl-0">
+            <div className="flex justify-center items-center w-full">
+              <div className="flex border h-[50px] items-center gap-6 md-lg:w-full">
+                <div className="relative after:absolute after:h-[25px] after:w-[2px] after:bg-[#afafaf] after:-right-[15px] md:hidden">
+                  <select
                     name=""
                     id=""
-                    placeholder="What do you need"
-                  />
-                  {/*  */}
-                  <button className="bg-[#34548d] right-0 px-8 h-full font-semibold uppercase text-white">
-                    Search
-                  </button>
-                </div>
-              </div>
-              {/*  */}
-              <div className="w-4/12 block md-lg:hidden pl-2 md-lg:w-full md-lg:pl-0">
-                <div className="w-full flex justify-end md-lg:justify-start gap-3 items-center">
-                  <div className="w-[48px] h-[48px] rounded-full flex bg-[#f5f5f5] justify-center items-center text-[#34548d]">
-                    <span>
-                      <FaPhoneAlt className="animate-bounce" />
-                    </span>
-                  </div>
-                  <div className="flex justify-end flex-col gap-1 text-[#1c1c1c]">
-                    <h2 className="text-sm font-medium ">+(123) 123 1234</h2>
-                    <span className="text-xs font-semibold">Support 24/7</span>
-                  </div>
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-auto text-slate-600 font-semibold bg-transparent px-2 h-full outline-0 border-none"
+                  >
+                    <option value="">Select Category</option>
+                    {categories.map((c, i) => (
+                      <option value={c}>{c}</option>
+                    ))}
+                  </select>
                 </div>
                 {/*  */}
+                <input
+                  type="text"
+                  className="w-full h-full relative bg-transparent text-slate-500 outline-0 px-4 "
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  name=""
+                  id=""
+                  placeholder="What do you need "
+                />
+                {/*  */}
+                <button className="bg-[#34548d] right-0 px-8 h-full font-semibold uppercase text-white">
+                  Search
+                </button>
               </div>
             </div>
+          </div>
+          {/*  */}
+          <div className="w-2/12 block md-lg:hidden pl-2 md-lg:w-full md-lg:pl-0">
+            <div className="w-full flex justify-end md-lg:justify-start gap-1 items-center">
+              <div className="w-[48px] h-[48px] rounded-full flex bg-[#f5f5f5] justify-center items-center text-[#34548d]">
+                <span>
+                  <FaPhoneAlt className="animate-bounce" />
+                </span>
+              </div>
+              <div className="flex justify-end items-center flex-col gap-2 text-[#1c1c1c] ">
+                <h2 className="font-medium xl:text-xs text-[#34548d]">+(123) 123 1234</h2>
+                <span className="text-xs font-semibold">Support 24/7</span>
+              </div>
+            </div>
+            {/*  */}
           </div>
         </div>
       </div>

@@ -429,7 +429,6 @@ const Header = () => {
             </div>
           </div>
           {/* End Category   */}
-
           <div className=" w-7/12 md-lg:w-full pl-2 md-lg:pl-0">
             <div className="flex justify-center items-center w-full">
               <div className="flex border h-[50px] items-center gap-6 md-lg:w-full">

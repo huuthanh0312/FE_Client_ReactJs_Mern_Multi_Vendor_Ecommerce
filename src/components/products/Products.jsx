@@ -32,8 +32,8 @@ const Products = ({ title }) => {
   const ButtonGroup = ({ next, previous }) => {
     return (
       <div className="flex justify-between items-center text-slate-600">
-        <div className="text-xl font-bold ">{title}</div>
-        <div className="flex justify-center items-center gap-3">
+        <div className="text-2xl font-bold ">{title}</div>
+        <div className="flex justify-center items-center gap-3 lg:px-2">
           <button
             onClick={() => previous()}
             className="w-[30px] h-[30px] flex justify-center items-center bg-slate-300 border border-slate-200"
@@ -65,7 +65,11 @@ const Products = ({ title }) => {
         {products.map((productRow, i) => (
           <div key={i} className="flex flex-col justify-start gap-2">
             {productRow.map((p, j) => (
-              <Link key={j} to="#" className="flex justify-start items-start">
+              <Link
+                key={j}
+                to="#"
+                className="flex justify-start items-start transition-all duration-500 hover:scale-105"
+              >
                 <img
                   src={`${config.BASE_URL}/images/products/${p}.webp`}
                   alt=""

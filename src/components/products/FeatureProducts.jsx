@@ -18,20 +18,20 @@ const FeatureProducts = () => {
         {[1, 2, 3, 4, 5, 6].map((p, i) => (
           <div
             key={i}
-            className=" group transition-all duration-500 border hover:shadow-md hover:-mt-3"
+            className=" group transition-all duration-500 border rounded-md shadow-md hover:shadow-md hover:-mt-3"
           >
             <div className="relative overflow-hidden ">
               <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full shadow-md bg-red-500 font-semibold text-xs left-2 top-2">
                 8%
               </div>
-              <div className="flex w-full h-[280px] justify-center items-center">
+              <div className="flex w-full h-[200px] justify-center items-center">
                 <img
                   src={`${config.BASE_URL}/images/products/${i + 1}.webp`}
                   alt=""
-                  className="w-fit  h-full"
+                  className="w-auto h-full"
                 />
               </div>
-              <ul className="flex absolute transition-all duration-700 -bottom-10 justify-center items-center gap-2 w-full group-hover:bottom-3">
+              <ul className="flex absolute transition-all duration-700 -bottom-10 justify-center items-center gap-2 w-full group-hover:bottom-5">
                 <li
                   className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full shadow-md transition-all 
                   hover:bg-[#34548d] hover:text-white hover:rotate-[720deg]"

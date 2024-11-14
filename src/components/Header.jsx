@@ -135,7 +135,7 @@ const Header = () => {
                 </Link>
 
                 <div
-                  className="justify-center items-center p-1 bg-white text-slate-800 hover:scale-105 rounded-md hover:shadow-md hover:shadow-indigo-200 cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
+                  className="justify-center items-center p-1 bg-white text-black hover:scale-105 rounded-md hover:shadow-md hover:shadow-indigo-200 cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
                   onClick={() => setShowSidebar(false)}
                 >
                   <span>
@@ -150,6 +150,7 @@ const Header = () => {
                 <ul className="flex justify-center items-center gap-8 text-sm font-bold uppercase">
                   <li>
                     <Link
+                      to="/"
                       className={`p-2 block ${
                         pathname === '/' ? 'text-[#34548d]' : 'text-[#1c1c1c]'
                       } `}
@@ -161,6 +162,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
+                      to="/shop"
                       className={`p-2 block ${
                         pathname === '/shop' ? 'text-[#34548d]' : 'text-[#1c1c1c]'
                       } `}
@@ -237,7 +239,7 @@ const Header = () => {
         <div className="hidden md-lg:block">
           <div
             onClick={() => setShowSidebar(true)}
-            className={`fixed duration-200 transition-all ${
+            className={`fixed duration-300 transition-all ${
               showSidebar ? 'invisible' : 'visible'
             } hidden md-lg:block w-screen h-screen bg-[rgba(0,0,0,0.3)] top-0 left-0 z-20`}
           >
@@ -292,6 +294,7 @@ const Header = () => {
               <ul className="flex flex-col justify-start items-start text-sm font-bold uppercase py-2">
                 <li>
                   <Link
+                    to="/"
                     className={`py-2 block ${
                       pathname === '/' ? 'text-[#34548d]' : 'text-[#1c1c1c]'
                     } `}
@@ -303,6 +306,7 @@ const Header = () => {
                 </li>
                 <li>
                   <Link
+                    to="/shop"
                     className={`py-2 block ${
                       pathname === '/shop' ? 'text-[#34548d]' : 'text-[#1c1c1c]'
                     } `}
@@ -478,6 +482,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+      {/*  */}
     </div>
   )
 }

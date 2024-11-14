@@ -6,8 +6,8 @@ import { FaFacebook, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
 const Footer = () => {
   const currentYear = new Date().getFullYear()
   return (
-    <footer className="bg-[#f3f6fa]">
-      <div className="w-[90%] flex flex-wrap mx-auto pb-16 pt-10 md-lg:pb-10 sm:pb-6">
+    <footer className="bg-[#f3f6fa] w-full">
+      <div className="w-[90%] flex flex-wrap mx-auto py-12 md-lg:pb-10 sm:pb-6">
         <div className="sm:w-full lg:w-4/12 w-3/12">
           <div className="flex flex-col gap-3">
             <Link to="/">
@@ -121,7 +121,7 @@ const Footer = () => {
         </div>
       </div>
       {/*  */}
-      <div className="w-[90%] flex flex-wrap mx-auto justify-center items-center text-slate-600 py-5 text-center">
+      <div className="w-[90%] flex flex-wrap mx-auto justify-center items-center text-slate-600 pb-5 text-center">
         <span>Copyright @ {currentYear} All Rights Reserved</span>
       </div>
     </footer>

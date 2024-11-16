@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import Header from './../components/Header'
 import Footer from './../components/Footer'
-import config from '../utils/config'
 import { Link } from 'react-router-dom'
 import { FaHome, FaList, FaThList } from 'react-icons/fa'
-import { IoIosArrowForward } from 'react-icons/io'
 import { Range } from 'react-range'
 import { CiStar } from 'react-icons/ci'
 import { AiFillStar } from 'react-icons/ai'
@@ -13,10 +11,11 @@ import { BsFillGridFill } from 'react-icons/bs'
 import ShopProducts from '../components/products/ShopProducts'
 import Pagination from '../components/Pagination'
 import { FaFilter } from 'react-icons/fa6'
+import Breadcrumns from '../components/Breadcrumns'
 
 const Shop = () => {
   const [filter, setFilter] = useState(true)
-  let bgBanner = `${config.BASE_URL}/images/banner/shop.jpg`
+
   const categories = [
     'Laptops',
     'Mobiles',
@@ -40,30 +39,9 @@ const Shop = () => {
     <div className="w-full">
       <Header />
       {/*Section  Breadcrumbs */}
-      <section
-        className=" h-[220px] mt-6 bg-cover bg-no-repeat relative bg-left"
-        style={{ backgroundImage: `url(${bgBanner})` }}
-      >
-        <div className="absolute left-0 top-0 w-full h-full bg-[#2422228a] ">
-          <div className="w-[90%] h-full mx-auto">
-            <div className="flex flex-col justify-center items-center gap-2 h-full w-full text-white">
-              <h2 className="text-3xl font-bold ">Shop Page</h2>
-              <div className="flex justify-center items-center gap-2 text-2xl w-full">
-                <div className="inline-flex justify-center items-center hover:text-[#34548d] gap-2">
-                  <FaHome size={24} />
-                  <Link to="/">Home</Link>
-                </div>
-                <span>
-                  <IoIosArrowForward size={20} className="pt-1" />
-                </span>
-                <span>Shop</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Breadcrumns title="Shop" />
       {/*  */}
-      <section className="py-16 ">
+      <section className="py-16">
         <div className="w-[90%] h-full mx-auto">
           <div className={`md:block hidden ${!filter ? 'mb-6' : 'mb-0'}`}>
             <button
@@ -76,7 +54,7 @@ const Shop = () => {
           <div className="w-full flex flex-wrap">
             <div
               className={`w-3/12 md-lg:w-4/12 md:w-full pr-8 ${
-                filter ? 'md:h-0 md:overflow-hidden md:mb-6' : 'md:h-auto md:overflow-auto md:mb-0'
+                filter ? 'md:h-0 md:overflow-hidden xs:mb-6' : 'md:h-auto md:overflow-auto md:mb-0'
               }`}
             >
               <h2 className="text-3xl font-bold mb-3 text-slate-600">Category</h2>

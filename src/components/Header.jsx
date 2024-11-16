@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MdEmail, MdOutlineEmail } from 'react-icons/md'
+import { MdEmail, MdLanguage, MdOutlineEmail } from 'react-icons/md'
 import {
   IoIosArrowBack,
   IoIosArrowDown,
@@ -86,15 +86,18 @@ const Header = () => {
                   className="flex group cursor-pointer text-slate-800 text-sm justify-center items-center gap-2 relative after:absolute after:h-[18px] after:w-[2px] after:bg-[#afafaf] after:-right-[16px]
                    before:absolute before:h-[18px] before:w-[2px] before:bg-[#afafaf] before:-left-[18px]"
                 >
-                  <div className="flex justify-center items-center border-b border-white gap-1 px-1 text-white">
-                    <span>ENG</span>
-                    <span>
-                      <IoMdArrowDropdown />
-                    </span>
-                    <ul className="absolute invisible transition-all top-12 rounded-sm duration-200 p-2 w-[80px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10 shadow-lg">
-                      <li className="hover:border-b-2 hover:border-white">ENG</li>
-                      <li className="hover:border-b-2 hover:border-white">VN</li>
-                    </ul>
+                  <div className="flex justify-center items-center gap-2 px-1 text-white">
+                    <div className="inline-flex justify-center items-center gap-1">
+                      <MdLanguage />
+                      <span>EN</span>
+                      <span>
+                        <IoMdArrowDropdown />
+                      </span>
+                      <ul className="absolute invisible transition-all top-12 rounded-sm duration-200 p-2 w-[100px] flex flex-col justify-center items-center gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10 shadow-lg">
+                        <li className="hover:border-b-2 hover:border-white">ENGLISH</li>
+                        <li className="hover:border-b-2 hover:border-white">VIETNAM</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
                 {user ? (
@@ -229,6 +232,14 @@ const Header = () => {
                         {whishlist_count}
                       </div>
                     </div>
+                    {/* <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
+                      <span className="text-xl text-[#34548d]">
+                        <FaUser />
+                      </span>
+                      <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                        {whishlist_count}
+                      </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -241,7 +252,7 @@ const Header = () => {
             onClick={() => setShowSidebar(true)}
             className={`fixed duration-300 transition-all ${
               showSidebar ? 'invisible' : 'visible'
-            } hidden md-lg:block w-screen h-screen bg-[rgba(0,0,0,0.3)] top-0 left-0 z-20`}
+            } hidden md-lg:block w-screen h-screen bg-[rgba(0,0,0,0.3)] top-0 left-0 z-[9999]`}
           >
             <div
               className={`w-[300px] h-screen z-[9999] transition-all duration-200 fixed ${
@@ -256,15 +267,18 @@ const Header = () => {
               {/*  */}
               <div className="flex justify-start items-center gap-8 font-semibold">
                 <div className="flex group cursor-pointer text-[#1c1c1c] text-sm justify-center items-center gap-2 relative after:absolute after:h-[18px] after:w-[2px] after:bg-[#afafaf] after:-right-[16px]">
-                  <div className="flex justify-center items-center font-bold border-b border-black gap-1 px-1 text-[#1c1c1c]">
-                    <span>ENG</span>
-                    <span>
-                      <IoMdArrowDropdown />
-                    </span>
-                    <ul className="absolute invisible transition-all top-12 rounded-sm duration-200 font-semibold p-2 w-[80px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10 shadow-lg">
-                      <li className="hover:border-b-2 hover:border-white text-white">ENG</li>
-                      <li className="hover:border-b-2 hover:border-white text-white">VN</li>
-                    </ul>
+                  <div className="flex justify-center items-center font-bold gap-1 px-1 text-[#1c1c1c]">
+                    <div className="inline-flex justify-center items-center gap-1">
+                      <MdLanguage />
+                      <span>EN</span>
+                      <span>
+                        <IoMdArrowDropdown />
+                      </span>
+                      <ul className="absolute invisible transition-all top-12 rounded-sm duration-200 p-2 w-[100px] flex flex-col justify-center items-center gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10 shadow-lg text-white">
+                        <li className="hover:border-b-2 hover:border-white">ENGLISH</li>
+                        <li className="hover:border-b-2 hover:border-white">VIETNAM</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
                 {/*  */}
@@ -414,7 +428,7 @@ const Header = () => {
               <div
                 className={`${
                   categoryShow ? 'h-0' : 'h-auto py-4'
-                } w-full border-x overflow-hidden transition-all md-lg:relative duration-500 absolute z-[99999] bg-[#d4d4d4]`}
+                } w-full border-x overflow-hidden transition-all md-lg:relative duration-500 absolute z-[999] bg-[#d4d4d4]`}
               >
                 <ul className=" text-slate-600  font-medium">
                   {categories.map((c, i) => {

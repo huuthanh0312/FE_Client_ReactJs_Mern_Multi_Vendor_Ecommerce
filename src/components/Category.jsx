@@ -47,7 +47,7 @@ const Category = () => {
   }
 
   return (
-    <div className="w-full md-lg:mt-8">
+    <div className="w-full mt-4 md-lg:mt-2">
       <div className="w-[90%] mx-auto">
         <div className="w-full flex flex-wrap md-lg:gap-8">
           <div className="w-full ">
@@ -60,6 +60,7 @@ const Category = () => {
                 autoPlay={true}
                 infinite={true}
                 arrows={true}
+                showDots={true}
                 responsive={responsive}
                 transitionDuration={500}
               >
@@ -69,7 +70,7 @@ const Category = () => {
                       <img
                         src={`${config.BASE_URL}/images/products/${i + 1}.webp`}
                         alt=""
-                        className="w-full h-full rounded-md"
+                        className="w-full h-full rounded-md object-cover"
                       />
                       <div className="absolute bottom-6 w-full mx-auto font-bold left-0 flex justify-center items-center">
                         <span className="py-[2px] px-6 bg-[#2220205d] text-white">{c}</span>

@@ -39,7 +39,11 @@ const Banner = () => {
               >
                 {[1, 2, 3, 4, 5, 6].map((img, i) => (
                   <Link key={i} to="#">
-                    <img src={`${config.BASE_URL}/images/banner/${img}.jpg`} alt="" />
+                    <img
+                      className="w-full"
+                      src={`${config.BASE_URL}/images/banner/${img}.jpg`}
+                      alt=""
+                    />
                   </Link>
                 ))}
               </Carousel>

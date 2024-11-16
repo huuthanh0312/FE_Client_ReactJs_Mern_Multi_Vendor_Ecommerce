@@ -29,16 +29,19 @@ const ShopProducts = ({ styles }) => {
                 : 'md-lg:w-full relative group h-[210px] md:h-[270px] overflow-hidden'
             }`}
           >
+            {/* discount */}
             <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full shadow-md bg-red-500 font-semibold text-xs left-2 top-2">
               8%
             </div>
-            <img
-              src={`${config.BASE_URL}/images/products/${p}.webp`}
-              alt=""
-              className={`h-[240px] rounded-md md:h-[270px] xs:h[170px] object-cover ${
-                styles === 'grid' ? 'w-full' : 'w-[250px]'
-              } `}
-            />
+            <div className=" flex justify-center items-center">
+              <img
+                src={`${config.BASE_URL}/images/products/${p}.webp`}
+                alt=""
+                className={`h-[240px] md:h-[270px] xs:h[170px] ${
+                  styles === 'grid' ? 'w-auto' : 'w-[240px]'
+                } `}
+              />
+            </div>
             <ul className="flex absolute transition-all duration-700 -bottom-10 justify-center items-center gap-2 w-full group-hover:bottom-5">
               <li
                 className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full shadow-md transition-all 
@@ -64,7 +67,7 @@ const ShopProducts = ({ styles }) => {
           <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
             <h2 className="font-bold">Product Name</h2>
             <div className="flex justify-start items-center gap-3">
-              <div className="text-md font-semibold"> $3443</div>
+              <div className="text-md font-semibold">$3443</div>
               <div className="flex ">
                 <Rating ratings={4.5} />
               </div>

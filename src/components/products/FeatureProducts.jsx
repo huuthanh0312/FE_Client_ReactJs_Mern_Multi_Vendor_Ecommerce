@@ -15,7 +15,7 @@ const FeatureProducts = () => {
       </div>
       {/*  */}
       <div className="w-full grid grid-cols-4 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
-        {[1, 2, 3, 4, 5, 6].map((p, i) => (
+        {[1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6].map((p, i) => (
           <div
             key={i}
             className=" group transition-all duration-500 border rounded-md shadow-md hover:shadow-md hover:-mt-3"
@@ -24,9 +24,9 @@ const FeatureProducts = () => {
               <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full shadow-md bg-red-500 font-semibold text-xs left-2 top-2">
                 8%
               </div>
-              <div className="flex w-full h-[200px] justify-center items-center">
+              <div className="flex w-full h-[210px] justify-center items-center">
                 <img
-                  src={`${config.BASE_URL}/images/products/${i + 1}.webp`}
+                  src={`${config.BASE_URL}/images/products/${p}.webp`}
                   alt=""
                   className="w-auto h-full"
                 />

@@ -3,6 +3,7 @@ import config from '../../utils/config'
 import { FaEye, FaRegHeart } from 'react-icons/fa'
 import { RiShoppingCartLine } from 'react-icons/ri'
 import Rating from '../Rating'
+import { Link } from 'react-router-dom'
 
 const ShopProducts = ({ styles }) => {
   return (
@@ -43,12 +44,13 @@ const ShopProducts = ({ styles }) => {
               />
             </div>
             <ul className="flex absolute transition-all duration-700 -bottom-10 justify-center items-center gap-2 w-full group-hover:bottom-5">
-              <li
+              <Link
+                to={`/product/details/1344322`}
                 className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full shadow-md transition-all 
                   hover:bg-[#34548d] hover:text-white hover:rotate-[720deg]"
               >
                 <FaEye />
-              </li>
+              </Link>
               <li
                 className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full shadow-md transition-all 
                   hover:bg-[#34548d] hover:text-white hover:rotate-[720deg]"

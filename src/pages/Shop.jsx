@@ -11,7 +11,7 @@ import { BsFillGridFill } from 'react-icons/bs'
 import ShopProducts from '../components/products/ShopProducts'
 import Pagination from '../components/Pagination'
 import { FaFilter } from 'react-icons/fa6'
-import Breadcrumns from '../components/Breadcrumns'
+import Breadcrumbs from '../components/Breadcrumbs'
 
 const Shop = () => {
   const [filter, setFilter] = useState(true)
@@ -31,15 +31,14 @@ const Shop = () => {
   const [rating, setRating] = useState('')
   const [styles, setStyles] = useState('grid')
   //pagination
-  const [currentPage, setCurrentPage] = useState(1)
   const [pageNumber, setPageNumber] = useState(1)
-  const [searchValue, setsearchValue] = useState('')
   const [parPage, setParPage] = useState(5)
+
   return (
     <div className="w-full">
       <Header />
       {/*Section  Breadcrumbs */}
-      <Breadcrumns title="Shop" />
+      <Breadcrumbs title="Shop" showHome={true} />
       {/*  */}
       <section className="py-16">
         <div className="w-[90%] h-full mx-auto">
@@ -122,6 +121,7 @@ const Shop = () => {
                     <span>
                       <AiFillStar />
                     </span>
+                    <span className="text-sm text-orange-500">(12)</span>
                   </div>
                   {/*  */}
                   <div
@@ -143,6 +143,7 @@ const Shop = () => {
                     <span>
                       <CiStar />
                     </span>
+                    <span className="text-sm text-orange-500">(12)</span>
                   </div>
                   {/*  */}
                   <div
@@ -164,6 +165,7 @@ const Shop = () => {
                     <span>
                       <CiStar />
                     </span>
+                    <span className="text-sm text-orange-500">(12)</span>
                   </div>
                   {/*  */}
                   <div
@@ -185,6 +187,7 @@ const Shop = () => {
                     <span>
                       <CiStar />
                     </span>
+                    <span className="text-sm text-orange-500">(12)</span>
                   </div>
                   {/*  */}
                   <div
@@ -206,28 +209,9 @@ const Shop = () => {
                     <span>
                       <CiStar />
                     </span>
+                    <span className="text-sm text-orange-500">(12)</span>
                   </div>
                   {/*  */}
-                  <div
-                    onClick={() => setRating(0)}
-                    className="text-[#EDBB0E] flex justify-start items-start gap-2 text-xl cursor-pointer"
-                  >
-                    <span>
-                      <CiStar />
-                    </span>
-                    <span>
-                      <CiStar />
-                    </span>
-                    <span>
-                      <CiStar />
-                    </span>
-                    <span>
-                      <CiStar />
-                    </span>
-                    <span>
-                      <CiStar />
-                    </span>
-                  </div>
                 </div>
               </div>
               {/* end Rating */}

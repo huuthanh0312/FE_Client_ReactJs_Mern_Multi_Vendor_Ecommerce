@@ -4,6 +4,7 @@ import Carousel from 'react-multi-carousel'
 import { Link } from 'react-router-dom'
 import 'react-multi-carousel/lib/styles.css'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
+import Rating from '../Rating'
 
 const Products = ({ title }) => {
   const products = [
@@ -63,25 +64,26 @@ const Products = ({ title }) => {
         customButtonGroup={<ButtonGroup />}
       >
         {products.map((productRow, i) => (
-          <div key={i} className="flex flex-col justify-start gap-2">
+          <div key={i} className="flex flex-col justify-start gap-3">
             {productRow.map((p, j) => (
               <Link
                 key={j}
                 to="#"
-                className="flex justify-start items-start transition-all duration-500 hover:scale-105"
+                className="flex justify-start items-start transition-all duration-500 hover:scale-95 hover:shadow-lg"
               >
                 <img
                   src={`${config.BASE_URL}/images/products/${p}.webp`}
                   alt=""
-                  className="w-[110px] h-[110px]"
+                  className="w-[110px] h-[110px] rounded-md"
                 />
                 <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
                   <h2 className="font-bold">Product Name</h2>
-                  <div className="flex justify-start items-center gap-3">
+                  <div className="flex flex-col justify-start items-start gap-3">
                     <div className="text-md font-semibold"> $3443</div>
-                    {/* <div className="flex ">
+                    <div className="flex justify-center items-center">
                       <Rating ratings={4.5} />
-                    </div> */}
+                      <span className="text-[#34548d] text-sm">(23)</span>
+                    </div>
                   </div>
                 </div>
               </Link>

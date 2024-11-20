@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdEmail, MdLanguage, MdOutlineEmail } from 'react-icons/md'
 import {
   IoIosArrowBack,
@@ -21,30 +21,28 @@ import {
   FaTwitterSquare,
   FaUser
 } from 'react-icons/fa'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import config from '../utils/config'
 import { BsList } from 'react-icons/bs'
-import { LuListX } from 'react-icons/lu'
+import { FaUserAlt } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
 
 const Header = () => {
+  const navigate = useNavigate()
+  const { categories } = useSelector((state) => state.home)
   const { pathname } = useLocation()
   const [showSidebar, setShowSidebar] = useState(true)
   const [categoryShow, setCategoryShow] = useState(true)
 
-  const user = true
+  const user = false
   const whishlist_count = 5
-  const categories = [
-    'Laptops',
-    'Mobiles',
-    'Speaker',
-    'Top wear',
-    'Foot wear',
-    'Watches',
-    'Home Decor',
-    'Smart Watches'
-  ]
+
   const [searchValue, setSearchValue] = useState('')
   const [category, setCategory] = useState('')
+
+  const search = () => {
+    navigate(`/products/search?category=${category}&&value=${searchValue}`)
+  }
   return (
     <div className="w-full bg-white">
       {/* Header top */}
@@ -112,13 +110,13 @@ const Header = () => {
                   </Link>
                 ) : (
                   <Link
-                    to="/"
+                    to="/login"
                     className="flex cursor-pointer justify-center items-center gap-2 text-sm text-white "
                   >
                     <span>
-                      <FaLock />
+                      <FaUserAlt />
                     </span>
-                    <span>Login</span>
+                    <span>Login / Register</span>
                   </Link>
                 )}
               </div>
@@ -294,13 +292,13 @@ const Header = () => {
                   </Link>
                 ) : (
                   <Link
-                    to="/"
+                    to="/login"
                     className="flex cursor-pointer justify-center items-center gap-2 text-sm text-[#1c1c1c] "
                   >
                     <span>
-                      <FaLock />
+                      <FaUserAlt />
                     </span>
-                    <span>Login</span>
+                    <span>Login / Register</span>
                   </Link>
                 )}
               </div>
@@ -310,7 +308,7 @@ const Header = () => {
                   <Link
                     to="/"
                     className={`py-2 block ${
-                      pathname === '/' ? 'text-[#34548d]' : 'text-[#1c1c1c]'
+                      pathname === '/' ? 'text-[#34548d]' : 'text-slate-700'
                     } `}
                   >
                     <span className="hover:border-b-2 hover:border-blue-900 hover:text-[#34548d]">
@@ -322,7 +320,7 @@ const Header = () => {
                   <Link
                     to="/shop"
                     className={`py-2 block ${
-                      pathname === '/shop' ? 'text-[#34548d]' : 'text-[#1c1c1c]'
+                      pathname === '/shop' ? 'text-[#34548d]' : 'text-slate-700'
                     } `}
                   >
                     <span className="hover:border-b-2 hover:border-blue-900 hover:text-[#34548d]">
@@ -333,7 +331,7 @@ const Header = () => {
                 <li>
                   <Link
                     className={`py-2 block ${
-                      pathname === '/blog' ? 'text-[#34548d]' : 'text-[#1c1c1c]'
+                      pathname === '/blog' ? 'text-[#34548d]' : 'text-slate-700'
                     } `}
                   >
                     <span className="hover:border-b-2 hover:border-blue-900 hover:text-[#34548d]">
@@ -344,7 +342,7 @@ const Header = () => {
                 <li>
                   <Link
                     className={`py-2 block ${
-                      pathname === '/about' ? 'text-[#34548d]' : 'text-[#1c1c1c]'
+                      pathname === '/about' ? 'text-[#34548d]' : 'text-slate-700'
                     } `}
                   >
                     <span className="hover:border-b-2 hover:border-blue-900 hover:text-[#34548d]">
@@ -355,7 +353,7 @@ const Header = () => {
                 <li>
                   <Link
                     className={`py-2 block ${
-                      pathname === '/contact' ? 'text-[#34548d]' : 'text-[#1c1c1c]'
+                      pathname === '/contact' ? 'text-[#34548d]' : 'text-slate-700'
                     } `}
                   >
                     <span className="hover:border-b-2 hover:border-blue-900 hover:text-[#34548d]">
@@ -428,16 +426,23 @@ const Header = () => {
               <div
                 className={`${
                   categoryShow ? 'h-0' : 'h-auto py-4'
-                } w-full border-x overflow-hidden transition-all md-lg:relative duration-500 absolute z-[999] bg-[#d4d4d4]`}
+                } w-full overflow-hidden transition-all md-lg:absolute duration-500 absolute z-[9991] bg-[#dddbdb]`}
               >
-                <ul className=" text-slate-600  font-medium">
+                <ul className=" text-slate-600 font-medium ">
                   {categories.map((c, i) => {
                     return (
                       <li
                         key={i}
-                        className="flex justify-start items-center gap-2 px-[24px] py-[6px]"
+                        className="flex justify-start items-center gap-2 px-[24px] py-[6px] hover:bg-[#34548d] hover:text-white hover:scale-105"
                       >
-                        <Link className="text-sm block">{c}</Link>
+                        <img
+                          src={c.image}
+                          alt=""
+                          className="w-6 h-6 rounded-full overflow-hidden"
+                        />
+                        <Link to={`/products?category=${c.slug}`} className="text-md block">
+                          {c.name}
+                        </Link>
                       </li>
                     )
                   })}
@@ -459,7 +464,9 @@ const Header = () => {
                   >
                     <option value="">Select Category</option>
                     {categories.map((c, i) => (
-                      <option value={c}>{c}</option>
+                      <option key={i} value={c.slug}>
+                        {c.name}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -473,7 +480,10 @@ const Header = () => {
                   placeholder="What do you need "
                 />
                 {/*  */}
-                <button className="bg-[#34548d] right-0 px-8 h-full font-semibold uppercase text-white">
+                <button
+                  onClick={search}
+                  className="bg-[#34548d] right-0 px-8 h-full font-semibold uppercase text-white"
+                >
                   Search
                 </button>
               </div>

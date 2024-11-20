@@ -5,7 +5,7 @@ import { RiShoppingCartLine } from 'react-icons/ri'
 import Rating from '../Rating'
 import { Link } from 'react-router-dom'
 
-const ShopProducts = ({ styles }) => {
+const ShopProducts = ({ styles, products }) => {
   return (
     <div
       className={`w-full grid gap-6 ${
@@ -14,10 +14,10 @@ const ShopProducts = ({ styles }) => {
           : 'grid-cols-1 md-lg:grid-cols-2 md:grid-cols-2'
       }`}
     >
-      {[1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6].map((p, i) => (
+      {products.map((p, i) => (
         <div
           key={i}
-          className={`flex transition-all duration-800 hover:-translate-y-3 w-full gap-4 bg-white pb-4 rounded-md shadow-lg ${
+          className={`flex transition-all duration-1000 hover:-translate-y-3 w-full gap-4 bg-white pb-4 rounded-md shadow-lg ${
             styles === 'grid'
               ? 'flex-col justify-start items-start'
               : 'md-lg:flex-col justify-start items-center md-lg:items-start'
@@ -31,12 +31,14 @@ const ShopProducts = ({ styles }) => {
             }`}
           >
             {/* discount */}
-            <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full shadow-md bg-red-500 font-semibold text-xs left-2 top-2">
-              8%
-            </div>
+            {p.discount > 0 && (
+              <div className="flex justify-center items-center absolute text-white w-[35px] h-[35px] rounded-full shadow-md bg-red-500 font-semibold text-xs left-2 top-2">
+                {p.discount}%
+              </div>
+            )}
             <div className=" flex justify-center items-center">
               <img
-                src={`${config.BASE_URL}/images/products/${p}.webp`}
+                src={p.images[0]}
                 alt=""
                 className={`h-[240px] md:h-[270px] xs:h[170px] ${
                   styles === 'grid' ? 'w-auto' : 'w-[240px]'
@@ -67,12 +69,16 @@ const ShopProducts = ({ styles }) => {
             {/*  */}
           </div>
           <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
-            <h2 className="font-bold">Product Name</h2>
+            <h2 className="font-bold">{p.name}</h2>
             <div className="flex justify-start items-center gap-3">
-              <div className="text-md font-semibold">$3443</div>
-              <div className="flex ">
-                <Rating ratings={4.5} />
-              </div>
+              <div className="text-md font-semibold">${p.price}</div>
+
+              {p.rating > 0 && (
+                <div className="flex justify-center items-center">
+                  <Rating ratings={p.rating} />
+                  <span className="text-[#34548d] text-sm">(23)</span>
+                </div>
+              )}
             </div>
           </div>
         </div>

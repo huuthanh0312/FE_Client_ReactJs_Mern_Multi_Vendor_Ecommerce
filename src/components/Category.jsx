@@ -3,18 +3,10 @@ import Carousel from 'react-multi-carousel'
 import { Link } from 'react-router-dom'
 import config from '../utils/config'
 import 'react-multi-carousel/lib/styles.css'
+import { useSelector } from 'react-redux'
 
 const Category = () => {
-  const categories = [
-    'Laptops',
-    'Mobiles',
-    'Speaker',
-    'Top wear',
-    'Foot wear',
-    'Watches',
-    'Home Decor',
-    'Smart Watches'
-  ]
+  const { categories } = useSelector((state) => state.home)
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -65,15 +57,19 @@ const Category = () => {
                 transitionDuration={500}
               >
                 {categories.map((c, i) => (
-                  <Link key={i} to="#" className="h-[185px] block border rounded-md shadow-lg mx-2">
+                  <Link
+                    key={i}
+                    to={`/products?category=${c.slug}`}
+                    className="h-[185px] block border rounded-md shadow-lg mx-2"
+                  >
                     <div className="w-full h-full relative hover:scale-110 transition-all duration-500 rounded-md">
                       <img
-                        src={`${config.BASE_URL}/images/products/${i + 1}.webp`}
+                        src={c.image}
                         alt=""
-                        className="w-full h-full rounded-md object-cover"
+                        className="w-full h-full rounded-md object-contain"
                       />
                       <div className="absolute bottom-6 w-full mx-auto font-bold left-0 flex justify-center items-center">
-                        <span className="py-[2px] px-6 bg-[#2220205d] text-white">{c}</span>
+                        <span className="py-[2px] px-6 bg-[#2220205d] text-white">{c.name}</span>
                       </div>
                     </div>
                   </Link>

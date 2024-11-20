@@ -6,12 +6,7 @@ import 'react-multi-carousel/lib/styles.css'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 import Rating from '../Rating'
 
-const Products = ({ title }) => {
-  const products = [
-    [1, 2, 3],
-    [4, 5, 6]
-  ]
-
+const Products = ({ title, products }) => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -69,21 +64,31 @@ const Products = ({ title }) => {
               <Link
                 key={j}
                 to="#"
-                className="flex justify-start items-start transition-all duration-500 hover:scale-95 hover:shadow-lg"
+                className="flex justify-start items-center transition-all duration-500 hover:scale-95 hover:shadow-lg relative"
               >
-                <img
-                  src={`${config.BASE_URL}/images/products/${p}.webp`}
-                  alt=""
-                  className="w-[110px] h-[110px] rounded-md"
-                />
-                <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
-                  <h2 className="font-bold">Product Name</h2>
+                {p.discount > 0 && (
+                  <div className="flex justify-center items-center absolute text-white w-[24px] h-[24px] p-1 rounded-full shadow-md bg-red-500 font-semibold text-xs left-1 top-1">
+                    {p.discount}%
+                  </div>
+                )}
+                <div className="w-[80px] flex justify-start items-start ">
+                  <img
+                    src={p.images[0]}
+                    alt=""
+                    className="w-[80px] h-[80px] rounded-md object-contain"
+                  />
+                </div>
+
+                <div className="w-full px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
+                  <h2 className="font-bold">{p.name}</h2>
                   <div className="flex flex-col justify-start items-start gap-3">
-                    <div className="text-md font-semibold"> $3443</div>
-                    <div className="flex justify-center items-center">
-                      <Rating ratings={4.5} />
-                      <span className="text-[#34548d] text-sm">(23)</span>
-                    </div>
+                    <div className="text-md font-semibold">${p.price}</div>
+                    {p.rating > 0 && (
+                      <div className="flex justify-center items-center">
+                        <Rating ratings={p.rating} />
+                        <span className="text-[#34548d] text-sm">(23)</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Link>

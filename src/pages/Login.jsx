@@ -13,7 +13,7 @@ const Login = () => {
   // const dispatch = useDispatch() //kết nối component với Redux store để có thể gửi action và thay đổi state toàn cục của ứng dụng.
 
   const [showPassword, setShowPassword] = useState(false) // state show password
-  const loader = true
+  const loader = false
   const [state, setState] = useState({
     name: '',
     email: '',

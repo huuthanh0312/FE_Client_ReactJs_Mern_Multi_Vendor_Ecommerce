@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from './../components/Header'
 import Footer from './../components/Footer'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { FaHome, FaList, FaThList } from 'react-icons/fa'
 import { Range } from 'react-range'
 import { CiStar } from 'react-icons/ci'
@@ -20,7 +20,11 @@ import {
   queryProducts
 } from '../store/Reducers/homeReducer'
 
-const Shop = () => {
+const SearchProduct = () => {
+  let [searchParams, setSearchParams] = useSearchParams()
+  const category = searchParams.get('category')
+  const searchValue = searchParams.get('value')
+
   const dispatch = useDispatch()
   const { categories, products, latestProducts, priceRange, totalProduct, parPage } = useSelector(
     (state) => state.home
@@ -39,14 +43,6 @@ const Shop = () => {
   const [state, setState] = useState({ values: [priceRange.low, priceRange.high] })
   const [rating, setRating] = useState('')
   const [sortPrice, setSortPrice] = useState('')
-  const [category, setCategory] = useState('')
-  const queryCategory = (e, value) => {
-    if (e.target.checked) {
-      setCategory(value)
-    } else {
-      setCategory('')
-    }
-  }
 
   useEffect(() => {
     dispatch(priceRangeProduct())
@@ -60,16 +56,17 @@ const Shop = () => {
         category,
         rating,
         sortPrice,
-        pageNumber
+        pageNumber,
+        searchValue
       })
     )
-  }, [state.values[0], state.values[1], category, rating, sortPrice, pageNumber])
-  console.log(state)
+  }, [state.values[0], state.values[1], category, rating, sortPrice, pageNumber, searchValue])
+
   return (
     <div className="w-full">
       <Header />
       {/*Section  Breadcrumbs */}
-      <Breadcrumbs title="Shop" showHome={true} />
+      <Breadcrumbs title="Category Shop" showHome={true} />
       {/*  */}
       <section className="py-16 bg-[#eeeeee]">
         <div className="w-[90%] h-full mx-auto ">
@@ -90,8 +87,8 @@ const Shop = () => {
               }`}
             >
               <div className="p-5">
-                <h2 className="text-3xl font-bold mb-3 text-slate-600">Category</h2>
-                <div className="py-2">
+                {/*<h2 className="text-3xl font-bold mb-3 text-slate-600">Category</h2>
+                 <div className="py-2">
                   {categories.map((c, i) => (
                     <div key={i} className="flex justify-start items-center gap-2 py-1 ">
                       <input
@@ -110,7 +107,7 @@ const Shop = () => {
                       </label>
                     </div>
                   ))}
-                </div>
+                </div> */}
                 {/*end category */}
                 <div className="py-2 flex flex-col gap-5">
                   <h2 className="text-3xl font-bold mb-3 text-slate-600">Price</h2>
@@ -347,4 +344,4 @@ const Shop = () => {
   )
 }
 
-export default Shop
+export default SearchProduct

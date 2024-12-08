@@ -12,6 +12,14 @@ import { getCategories } from './store/Reducers/homeReducer'
 import { useDispatch } from 'react-redux'
 import CategoryShop from './pages/CategoryShop'
 import SearchProduct from './pages/SearchProduct'
+import Payment from './pages/Payment'
+import Dashboard from './pages/Dashboard'
+import ProtectUser from './utils/ProtectUser'
+import Index from './components/dashboard/Index'
+import Orders from './components/dashboard/Orders'
+import ChangePassword from './components/dashboard/ChangePassword'
+import Wishlist from './components/dashboard/Wishlist'
+import OrderDetails from './components/dashboard/OrderDetails'
 
 function App() {
   const dispatch = useDispatch()
@@ -27,9 +35,21 @@ function App() {
         <Route path="/shop" element={<Shop />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/shipping" element={<Shipping />}></Route>
+        <Route path="/payment" element={<Payment />}></Route>
+
         <Route path="/products?" element={<CategoryShop />}></Route>
         <Route path="/products/search?" element={<SearchProduct />}></Route>
         <Route path="/product/details/:slug" element={<Details />}></Route>
+
+        <Route path="/dashboard" element={<ProtectUser />}>
+          <Route path="" element={<Dashboard />}>
+            <Route path="" element={<Index />} />
+            <Route path="my-orders" element={<Orders />} />
+            <Route path="my-wishlist" element={<Wishlist />} />
+            <Route path="change-password" element={<ChangePassword />} />
+            <Route path="order/details/:orderId" element={<OrderDetails />} />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   )

@@ -60,9 +60,9 @@ const Category = () => {
                   <Link
                     key={i}
                     to={`/products?category=${c.slug}`}
-                    className="h-[185px] block border rounded-md shadow-lg mx-2"
+                    className="h-[185px] block border rounded-md shadow-lg mx-1"
                   >
-                    <div className="w-full h-full relative hover:scale-110 transition-all duration-500 rounded-md">
+                    <div className="w-full h-full hover:scale-105 transition-all duration-500 rounded-md">
                       <img
                         src={c.image}
                         alt=""

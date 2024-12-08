@@ -25,16 +25,20 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import config from '../utils/config'
 import { BsList } from 'react-icons/bs'
 import { FaUserAlt } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCartProducts } from '../store/Reducers/cartReducer'
 
 const Header = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const { categories } = useSelector((state) => state.home)
+  const { userInfo } = useSelector((state) => state.auth)
+  const { cart_product_count } = useSelector((state) => state.cart) //state loader
+
   const { pathname } = useLocation()
   const [showSidebar, setShowSidebar] = useState(true)
   const [categoryShow, setCategoryShow] = useState(true)
 
-  const user = false
   const whishlist_count = 5
 
   const [searchValue, setSearchValue] = useState('')
@@ -43,8 +47,21 @@ const Header = () => {
   const search = () => {
     navigate(`/products/search?category=${category}&&value=${searchValue}`)
   }
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getCartProducts(userInfo.id))
+    }
+  }, [])
+  // redirect Cart Page
+  const redirectCartPage = () => {
+    if (userInfo) {
+      navigate('/cart')
+    } else {
+      navigate('/login')
+    }
+  }
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white mb-5">
       {/* Header top */}
       <div className="header-top bg-[#010101] md-lg:hidden">
         <div className="w-[90%] mx-auto">
@@ -98,15 +115,15 @@ const Header = () => {
                     </div>
                   </div>
                 </div>
-                {user ? (
+                {userInfo ? (
                   <Link
-                    to="/dashborad"
+                    to="/dashboard"
                     className="flex cursor-pointer justify-center items-center gap-2 text-sm text-white "
                   >
                     <span>
                       <FaUser />
                     </span>
-                    <span>Thanh Nguyen</span>
+                    <span>{userInfo.name}</span>
                   </Link>
                 ) : (
                   <Link
@@ -218,17 +235,22 @@ const Header = () => {
                       <span className="text-xl text-[#34548d]">
                         <FaHeart />
                       </span>
-                      <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                      <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white text-sm flex justify-center items-center -top-[3px] -right-[5px]">
                         {whishlist_count}
                       </div>
                     </div>
-                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
+                    <div
+                      onClick={redirectCartPage}
+                      className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
+                    >
                       <span className="text-xl text-[#34548d]">
                         <FaShoppingCart />
                       </span>
-                      <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                        {whishlist_count}
-                      </div>
+                      {cart_product_count !== 0 && (
+                        <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white text-sm flex justify-center items-center -top-[3px] -right-[5px]">
+                          {cart_product_count}
+                        </div>
+                      )}
                     </div>
                     {/* <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
                       <span className="text-xl text-[#34548d]">
@@ -280,15 +302,15 @@ const Header = () => {
                   </div>
                 </div>
                 {/*  */}
-                {user ? (
+                {userInfo ? (
                   <Link
-                    to="/dashborad"
+                    to="/dashboard"
                     className="flex cursor-pointer justify-center items-center gap-2 text-sm text-[#1c1c1c] "
                   >
                     <span>
                       <FaUser />
                     </span>
-                    <span className="text-[#34548d]">Thanh Nguyen</span>
+                    <span className="text-[#34548d]">{userInfo.name}</span>
                   </Link>
                 ) : (
                   <Link

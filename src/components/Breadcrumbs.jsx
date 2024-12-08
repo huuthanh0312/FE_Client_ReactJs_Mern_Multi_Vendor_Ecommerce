@@ -16,12 +16,12 @@ const Breadcrumbs = ({ title, showHome }) => {
         <div className="w-[90%] h-full mx-auto flex flex-col justify-center items-center text-white gap-2">
           <h2 className="text-3xl font-bold">{title} Page</h2>
           {showHome && (
-            <div className="flex items-center gap-2 text-2xl">
-              <Link to="/" className="inline-flex items-center gap-2 hover:text-[#34548d]">
+            <div className="flex justify-end items-center gap-2 text-2xl">
+              <Link to="/" className="flex justify-center items-center gap-2 hover:text-[#34548d]">
                 <FaHome size={24} />
                 <span>Home</span>
               </Link>
-              <IoIosArrowForward size={20} />
+              <IoIosArrowForward size={20} className="mt-1" />
               <span>{title}</span>
             </div>
           )}

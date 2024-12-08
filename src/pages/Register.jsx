@@ -1,19 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { ClipLoader, PropagateLoader } from 'react-spinners'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { FaEye, FaEyeSlash, FaFacebook, FaGoogle } from 'react-icons/fa'
 import config from '../utils/config'
 import { overrideStyle } from '../utils/utils'
+import { customer_register, messageClear } from '../store/Reducers/authReducer'
+import { toast } from 'react-hot-toast'
 
 const Register = () => {
-  // const navigate = useNavigate() // điều hướng trang
-  // const dispatch = useDispatch() //kết nối component với Redux store để có thể gửi action và thay đổi state toàn cục của ứng dụng.
+  const navigate = useNavigate() // điều hướng trang
+  const dispatch = useDispatch() //kết nối component với Redux store để có thể gửi action và thay đổi state toàn cục của ứng dụng.
+  const { loader, userInfo, errorMessage, successMessage } = useSelector((state) => state.auth) //state loader
 
   const [showPassword, setShowPassword] = useState(false) // state show password
-  const loader = false
   const [state, setState] = useState({
     name: '',
     email: '',
@@ -27,7 +29,24 @@ const Register = () => {
   }
   const submit = (e) => {
     e.preventDefault()
+    dispatch(customer_register(state))
   }
+
+  // use Effect check toast message error
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage)
+      dispatch(messageClear()) //message clear function reudx
+    }
+    if (successMessage) {
+      toast.success(successMessage)
+      dispatch(messageClear()) //message clear function reudx
+      navigate('/')
+    }
+    if (userInfo) {
+      navigate('/')
+    }
+  }, [errorMessage, successMessage])
 
   // show hide password
   const showPasswordClick = () => {
@@ -41,10 +60,10 @@ const Register = () => {
     <div>
       <Header />
       <div className="bg-slate-200 mt-4">
-        <div className="w-full justify-center items-center p-10">
-          <div className="grid grid-cols-2 w-[60%] md-lg:w-full mx-auto bg-white rounded-xl">
-            <div className="p-8">
-              <h2 className="text-2xl font-bold text-center mb-2 uppercase">Thanh Shop! 👋</h2>
+        <div className="w-full justify-center items-center p-12">
+          <div className="grid grid-cols-2 md:grid-cols-1 w-[70%] md-lg:w-full md:w-[80%] xs:w-full mx-auto bg-white rounded-xl shadow-lg">
+            <div className="p-6">
+              <h2 className="text-xl font-bold text-center mb-2 uppercase">Thanh Shop! 👋</h2>
               <div className="text-center">
                 <span className="mb-2 font-mono">Please register your account!</span>
               </div>
@@ -125,7 +144,7 @@ const Register = () => {
                     'Register'
                   )}
                 </button>
-                <div className="flex items-center mb-2 gap-3 justify-center">
+                <div className="flex items-center mb-2 gap-3 justify-center xs:text-sm">
                   <p>
                     Already Have an acount ?
                     <Link className="font-bold text-[#34548d]" to="/login">
@@ -163,12 +182,14 @@ const Register = () => {
                 </div>
               </form>
             </div>
-            <div className="w-full md-lg:hidden h-full py-4 pr-4">
-              <img
-                src={`${config.BASE_URL}/images/login-1.png`}
-                alt=""
-                className="w-full h-full rounded-md object-contain"
-              />
+            <div className="md:hidden">
+              <div className=" w-full h-full py-4 pr-4">
+                <img
+                  src={`${config.BASE_URL}/images/login-1.png`}
+                  alt=""
+                  className="w-full h-full rounded-md object-contain"
+                />
+              </div>
             </div>
           </div>
         </div>

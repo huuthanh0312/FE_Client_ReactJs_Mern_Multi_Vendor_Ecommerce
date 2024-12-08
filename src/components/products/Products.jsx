@@ -64,10 +64,10 @@ const Products = ({ title, products }) => {
               <Link
                 key={j}
                 to="#"
-                className="flex justify-start items-center transition-all duration-500 hover:scale-95 hover:shadow-lg relative"
+                className="flex justify-start items-center px-1 transition-all duration-500 hover:scale-95 rounded-md shadow-lg relative"
               >
                 {p.discount > 0 && (
-                  <div className="flex justify-center items-center absolute text-white w-[24px] h-[24px] p-1 rounded-full shadow-md bg-red-500 font-semibold text-xs left-1 top-1">
+                  <div className="flex justify-center items-center absolute text-white w-[24px] h-[24px] p-1 rounded-full shadow-md bg-red-500 font-semibold text-[10px] left-1 top-1">
                     {p.discount}%
                   </div>
                 )}
@@ -78,10 +78,9 @@ const Products = ({ title, products }) => {
                     className="w-[80px] h-[80px] rounded-md object-contain"
                   />
                 </div>
-
-                <div className="w-full px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
-                  <h2 className="font-bold">{p.name}</h2>
-                  <div className="flex flex-col justify-start items-start gap-3">
+                <div className="w-full px-3 py-1 flex justify-start items-start gap-1 flex-col text-slate-600 ">
+                  <h5 className="font-bold">{p.name}</h5>
+                  <div className="flex flex-col justify-center items-start">
                     <div className="text-md font-semibold">${p.price}</div>
                     {p.rating > 0 && (
                       <div className="flex justify-center items-center">

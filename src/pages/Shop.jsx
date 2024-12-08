@@ -64,7 +64,7 @@ const Shop = () => {
       })
     )
   }, [state.values[0], state.values[1], category, rating, sortPrice, pageNumber])
-  console.log(state)
+  //console.log(state)
   return (
     <div className="w-full">
       <Header />
@@ -284,8 +284,8 @@ const Shop = () => {
             </div>
             {/* end w-3/12 */}
             <div className="w-9/12 md-lg:w-8/12 md:w-full ">
-              <div className="pl-8 md:pl-0">
-                <div className="py-4 bg-white mb-8 px-3 rounded-md flex justify-between items-start border">
+              <div className="pl-6 md:pl-0">
+                <div className="p-4 bg-white mb-5 rounded-md flex justify-between items-center border">
                   <h2 className="text-lg font-medium text-slate-600">
                     <span className="text-orange-500">{totalProduct}</span> Products
                   </h2>

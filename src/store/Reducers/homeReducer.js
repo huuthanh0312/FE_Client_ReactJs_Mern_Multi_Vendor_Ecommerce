@@ -64,13 +64,28 @@ export const queryProducts = createAsyncThunk(
   }
 )
 
-// queryProducts details
+// queryProducts details by slug
 export const productDetails = createAsyncThunk(
   'product/productDetails',
   async (slug, { rejectWithValue, fulfillWithValue }) => {
     try {
       //console.log(slug)
-      const { data } = await api.get(`/home/products/details/${slug}`, { withCredentials: true }
+      const { data } = await api.get(`/home/products/details/${slug}`, { withCredentials: true })
+      //console.log(data)
+      return fulfillWithValue(data)
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
+// Products details by review
+export const customerReview = createAsyncThunk(
+  'product/customerReview',
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      //console.log(slug)
+      const { data } = await api.post(`/home/customers/review`, info, { withCredentials: true }
       )
       //console.log(data)
       return fulfillWithValue(data)
@@ -80,6 +95,21 @@ export const productDetails = createAsyncThunk(
   }
 )
 
+// Products details by slug
+export const getReviews = createAsyncThunk(
+  'product/getReviews',
+  async ({ productId, pageNumber }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      //console.log(slug)
+      const { data } = await api.get(`/home/customers/reviews/${productId}?pageNumber=${pageNumber}`, { withCredentials: true }
+      )
+      //console.log(data)
+      return fulfillWithValue(data)
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
 
 export const homeReducer = createSlice({
   name: 'home',
@@ -101,7 +131,10 @@ export const homeReducer = createSlice({
     parPage: 3,
     product: {},
     relatedProducts: [],
-    moreProducts: []
+    moreProducts: [],
+    totalReview: 0,
+    ratingReview: [],
+    reviews: []
   },
   reducers: {
     // message clear function reudx
@@ -132,7 +165,6 @@ export const homeReducer = createSlice({
         state.latestProducts = payload.latestProducts
         state.priceRange = payload.priceRange
       })
-
       .addCase(queryProducts.fulfilled, (state, { payload }) => {
         // get status and data BE success 200
         state.loader = false
@@ -140,7 +172,6 @@ export const homeReducer = createSlice({
         state.totalProduct = payload.totalProduct
         state.parPage = payload.parPage
       })
-
       // Product details
       .addCase(productDetails.fulfilled, (state, { payload }) => {
         // get status and data BE success 200
@@ -148,6 +179,26 @@ export const homeReducer = createSlice({
         state.product = payload.product
         state.relatedProducts = payload.relatedProducts
         state.moreProducts = payload.moreProducts
+      })
+      // customer review product
+      .addCase(customerReview.pending, (state, { payload }) => {
+        // get status and data BE pending 404
+        state.loader = true
+      })
+      .addCase(customerReview.rejected, (state, { payload }) => {
+        // get status and data BE pending 404
+        state.loader = false
+        state.errorMessage = payload.error
+      })
+      .addCase(customerReview.fulfilled, (state, { payload }) => {
+        state.loader = false
+        state.successMessage = payload.message
+      })
+      // get Rating And Review 
+      .addCase(getReviews.fulfilled, (state, { payload }) => {
+        state.reviews = payload.reviews
+        state.totalReview = payload.totalReview
+        state.ratingReview = payload.ratingReview
       })
   }
 })

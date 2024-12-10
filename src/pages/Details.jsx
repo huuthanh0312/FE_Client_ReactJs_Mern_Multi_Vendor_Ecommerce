@@ -205,7 +205,7 @@ const Details = () => {
         <div className="w-[90%] mx-auto py-12">
           <div className="grid grid-cols-2 md-lg:grid-cols-1 gap-8">
             <div className="">
-              <div className="p-5 border rounded-md m-1">
+              <div className="p-5 border rounded-md m-1 shadow-lg">
                 <img
                   src={image ? image : product.images?.[0]}
                   alt=""
@@ -226,7 +226,7 @@ const Details = () => {
                         <div
                           key={i}
                           onClick={() => setImage(img)}
-                          className="w-full h-full relative flex justify-center items-center transition-all duration-500 rounded-md cursor-pointer px-1"
+                          className="w-full h-full relative flex justify-center items-center shadow transition-all duration-500 rounded-md cursor-pointer px-1"
                         >
                           <img
                             src={img}
@@ -272,9 +272,14 @@ const Details = () => {
                   </>
                 )}
               </div>
+              <div className="text-xl text-slate-600 font-bold">
+                <p>
+                  Shop Name: <span className="text-[#34548d] uppercase">{product.shopName}</span>
+                </p>
+              </div>
               {/* Description */}
               <div className=" text-slate-600 ">
-                <p>{product?.description ? product.description.substring(0, 250) + '...' : ''}</p>
+                <p>{product?.description ? product.description.substring(0, 300) + '...' : ''}</p>
               </div>
               {/*  */}
               <div className="flex xs:flex-col gap-3 pb-10 border-b xs:w-full">
@@ -312,7 +317,7 @@ const Details = () => {
                 <div
                   onClick={() => handleAddToWishlist(product)}
                   className="w-[50px] xs:w-full h-[50px] cursor-pointer border-2 border-[#34548d] text-[#34548d] bg-white flex justify-center items-center rounded-sm shadow-md transition-all 
-                  hover:bg-[#34548d] hover:text-white hover:rotate-[360deg] transform ease-in-out duration-200"
+                  hover:bg-[#34548d] hover:text-white hover:rotate-[360deg] xs:hover:rotate-0 transform ease-in-out duration-200"
                 >
                   <FaHeart size={24} />
                 </div>
@@ -416,7 +421,7 @@ const Details = () => {
                 </div>
                 <div className="">
                   {state === 'reviews' ? (
-                    <Reviews />
+                    <Reviews product={product} />
                   ) : (
                     <p className="py-5 text-slate-600">{product.description}</p>
                   )}
@@ -430,7 +435,7 @@ const Details = () => {
                   <BsShop />
                   <h2 className="text-xl font-bold">{product.shopName}</h2>
                 </div>
-                <div className="flex flex-col gap-2 mt-3 py-3">
+                <div className="flex flex-col gap-4 py-3">
                   {moreProducts.map((p, j) => (
                     <Link
                       key={j}

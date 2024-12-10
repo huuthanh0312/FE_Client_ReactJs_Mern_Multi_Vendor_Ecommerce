@@ -56,7 +56,7 @@ const Dashboard = () => {
                   <span>
                     <FaHeart size={20} />
                   </span>
-                  <Link to="/dashboard/my-wishlist" className="block">
+                  <Link to="/dashboard/wishlist" className="block">
                     Wishlist
                   </Link>
                 </li>

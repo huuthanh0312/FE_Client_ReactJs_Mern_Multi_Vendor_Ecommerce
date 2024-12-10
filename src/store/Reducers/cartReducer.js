@@ -72,6 +72,50 @@ export const quantityDecrease = createAsyncThunk(
 )
 
 
+// Add Product to wishlist
+export const addToWishlist = createAsyncThunk(
+  'cart/addToWishlist',
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    //console.log(info)
+    try {
+      const { data } = await api.post('/home/products/wishlist', info, { withCredentials: true })
+      return fulfillWithValue(data)
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
+// Get Product to wishlist
+export const getWishlistProducts = createAsyncThunk(
+  'cart/getWishlistProducts',
+  async (userId, { rejectWithValue, fulfillWithValue }) => {
+    //console.log(info)
+    try {
+      const { data } = await api.get(`/home/products/wishlist/${userId}`, { withCredentials: true })
+      return fulfillWithValue(data)
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
+
+// Get Product to wishlist
+export const removeWishlistProduct = createAsyncThunk(
+  'cart/removeWishlistProduct',
+  async (wishlistId, { rejectWithValue, fulfillWithValue }) => {
+    //console.log(info)
+    try {
+      const { data } = await api.delete(`/home/products/wishlist/${wishlistId}`, { withCredentials: true })
+      return fulfillWithValue(data)
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
+
 export const cartReducer = createSlice({
   name: 'cart',
   initialState: {
@@ -81,7 +125,7 @@ export const cartReducer = createSlice({
     cartProducts: [],
     cart_product_count: 0,
     wishlist_count: 0,
-    wishlist: [],
+    wishlists: [],
     price: 0,
     shipping_fee: 0,
     outOfStockProducts: [],
@@ -98,7 +142,7 @@ export const cartReducer = createSlice({
   // loader check state
   extraReducers: (builder) => {
     builder
-      // login
+      // add to cart
       .addCase(addToCart.pending, (state, { payload }) => {
         // get status and data BE pending 404
         state.loader = true
@@ -142,6 +186,43 @@ export const cartReducer = createSlice({
         state.loader = false
         state.successMessage = payload.message
       })
+
+      // add to wishlist
+      .addCase(addToWishlist.pending, (state, { payload }) => {
+        // get status and data BE pending 404
+        state.loader = true
+      })
+      .addCase(addToWishlist.rejected, (state, { payload }) => {
+        // get status and data BE pending 404
+        state.loader = false
+        state.errorMessage = payload.error
+      })
+      .addCase(addToWishlist.fulfilled, (state, { payload }) => {
+        // get status and data BE success 200
+        state.loader = false
+        state.successMessage = payload.message
+        state.wishlist_count = state.wishlist_count > 0 ? state.wishlist_count + 1 : 1
+      })
+      .addCase(getWishlistProducts.fulfilled, (state, { payload }) => {
+        // get status and data BE success 200
+        state.loader = false
+        state.successMessage = payload.message
+        state.wishlists = payload.wishlists
+        state.wishlist_count = payload.wishlist_count
+      })
+      .addCase(removeWishlistProduct.rejected, (state, { payload }) => {
+        // get status and data BE pending 404
+        state.loader = false
+        state.errorMessage = payload.error
+      })
+      .addCase(removeWishlistProduct.fulfilled, (state, { payload }) => {
+        // get status and data BE success 200
+        state.loader = false
+        state.successMessage = payload.message
+        state.wishlists = state.wishlists.filter(p => p._id !== payload.wishlistId)
+        state.wishlist_count = payload.wishlist_count - 1
+      })
+
   }
 })
 

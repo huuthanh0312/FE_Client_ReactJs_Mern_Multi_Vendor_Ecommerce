@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Breadcrumbs from '../components/Breadcrumbs'
 import Footer from '../components/Footer'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
   FaEye,
   FaFacebookF,
@@ -29,12 +29,118 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { RiShoppingCartLine } from 'react-icons/ri'
+import { useDispatch, useSelector } from 'react-redux'
+import { productDetails } from '../store/Reducers/homeReducer'
+import { toast } from 'react-hot-toast'
+import { addToCart, addToWishlist, messageClear } from '../store/Reducers/cartReducer'
 const Details = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { product, moreProducts, relatedProducts } = useSelector((state) => state.home)
+  const { userInfo } = useSelector((state) => state.auth)
+  const { loader, errorMessage, successMessage } = useSelector((state) => state.cart)
+
+  // use Effect check toast message error
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage)
+      dispatch(messageClear()) //message clear function reudx
+    }
+    if (successMessage) {
+      toast.success(successMessage)
+      dispatch(messageClear()) //message clear function reudx
+    }
+  }, [errorMessage, successMessage])
+
   const [image, setImage] = useState('')
-  const images = [1, 2, 3, 4, 5, 6]
-  const discount = 5
-  const stock = 5
+  const { slug } = useParams()
+  useEffect(() => {
+    setImage('')
+    dispatch(productDetails(slug))
+  }, [slug])
+
   const [state, setState] = useState('reviews')
+  const [quantity, setQuantity] = useState(1)
+
+  // handle quantity increment and decrement
+  const Increment = () => {
+    if (quantity >= product.stock) {
+      toast.error('Out of Stock')
+    } else {
+      setQuantity(quantity + 1)
+    }
+  }
+  const Decrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1)
+    }
+  }
+
+  // Add to cart
+  const add_to_cart = (id) => {
+    if (userInfo) {
+      dispatch(addToCart({ userId: userInfo.id, quantity: quantity, productId: id }))
+    } else {
+      navigate('/login')
+    }
+  }
+
+  // Add To Wishlist
+  const handleAddToWishlist = (product) => {
+    console.log(product)
+    if (userInfo) {
+      dispatch(
+        addToWishlist({
+          userId: userInfo.id,
+          productId: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.images[0],
+          discount: product.discount,
+          rating: product.rating,
+          slug: product.slug
+        })
+      )
+    } else {
+      navigate('/login')
+    }
+  }
+
+  const handleBuyNow = () => {
+    if (userInfo) {
+      let price = 0
+      if (product.discount > 0) {
+        price = product.price - Math.floor((product.price * product.discount) / 100)
+      } else {
+        price = product.price
+      }
+      const obj = [
+        {
+          sellerId: product.sellerId,
+          shopName: product.shopName,
+          price: quantity * (price - Math.floor((price * 5) / 100)),
+          products: [
+            {
+              quantity: quantity,
+              productInfo: product
+            }
+          ]
+        }
+      ]
+
+      // redirect
+      navigate('/shipping', {
+        state: {
+          products: obj,
+          price: price * quantity,
+          shipping_fee: 10 * quantity,
+          items: 1
+        }
+      })
+    } else {
+      navigate('/login')
+    }
+  }
 
   const responsive = {
     superLargeDesktop: {
@@ -66,34 +172,31 @@ const Details = () => {
       items: 2
     }
   }
+
   return (
     <div className="w-full">
       <Header />
       {/*Section  Breadcrumbs */}
-      <Breadcrumbs title="Product Details" showHome={false} />
+      <Breadcrumbs title="Product Details" showHome={true} />
       {/* End Breadcrumbs */}
       <section className="bg-slate-100">
-        <div className="w-[90%] mx-auto py-16">
+        <div className="w-[90%] mx-auto py-6">
           <div className="flex justify-start items-center text-md text-slate-600 w-full hover:text-[#34548d] gap-2 px-1">
-            <Link to="/" className="inline-flex items-center gap-2 ">
+            <Link to="/" className="inline-flex justify-center items-center gap-2 ">
               <FaHome size={20} />
               <span>Home</span>
             </Link>
             <IoIosArrowForward className="pt-1" />
-            <div className="inline-flex items-center gap-2">
-              <span>Category Name</span>
+            <div className="flex justify-center items-center gap-2">
+              <span>{product.category}</span>
             </div>
 
             <IoIosArrowForward className="pt-1" />
-            <div className="inline-flex items-center gap-2">
+            <div className="inline-flex justify-center items-center gap-2">
               <div className="xs:hidden">
-                <img
-                  src={`${config.BASE_URL}/images/products/8.webp`}
-                  alt=""
-                  className="w-[18px] h-[18px] rounded-lg "
-                />
+                <img src={product.images?.[0]} alt="" className="w-[18px] h-[18px] rounded-lg " />
               </div>
-              <span>Product Name</span>
+              <span>{product.name}</span>
             </div>
           </div>
         </div>
@@ -104,17 +207,13 @@ const Details = () => {
             <div className="">
               <div className="p-5 border rounded-md m-1">
                 <img
-                  src={
-                    image
-                      ? `${config.BASE_URL}/images/products/${image}.webp`
-                      : `${config.BASE_URL}/images/products/${images[2]}.webp`
-                  }
+                  src={image ? image : product.images?.[0]}
                   alt=""
-                  className="w-full h-[400px] rounded-md"
+                  className="w-full h-[400px] rounded-md object-contain"
                 />
               </div>
               <div className="py-3">
-                {images && (
+                {product.images && (
                   <div>
                     <Carousel
                       autoPlay={true}
@@ -123,14 +222,14 @@ const Details = () => {
                       responsive={responsive}
                       transitionDuration={500}
                     >
-                      {images.map((img, i) => (
+                      {product.images.map((img, i) => (
                         <div
                           key={i}
                           onClick={() => setImage(img)}
                           className="w-full h-full relative flex justify-center items-center transition-all duration-500 rounded-md cursor-pointer px-1"
                         >
                           <img
-                            src={`${config.BASE_URL}/images/products/${img}.webp`}
+                            src={img}
                             alt=""
                             className="w-auto h-[120px] rounded-md object-cover hover:scale-95"
                           />
@@ -144,52 +243,65 @@ const Details = () => {
             {/* end show images product */}
             <div className="flex flex-col gap-5">
               <div className="text-3xl text-slate-600 font-bold">
-                <h3>Product Name ASDCFGG</h3>
+                <h3>{product.name}</h3>
               </div>
-              <div className="flex justify-start items-center gap-4">
-                <div className="flex text-xl">
-                  <Rating ratings={4.5} />
+              {product.rating > 0 && (
+                <div className="flex justify-start items-center gap-4">
+                  <div className="flex text-xl">
+                    <Rating ratings={product.rating} />
+                  </div>
+                  <span className="text-[#34548d]">(24 reviews)</span>
                 </div>
-                <span className="text-[#34548d]">(24 reviews)</span>
-              </div>
+              )}
+
               {/* Price */}
               <div className=" text-slate-600 font-bold flex items-center gap-3">
-                {discount !== 0 ? (
+                {product.discount > 0 ? (
                   <>
                     <h2 className="text-orange-500 text-3xl">
-                      ${500 - Math.floor((500 * discount) / 100)}
+                      ${product.price - Math.floor((product.price * product.discount) / 100)}
                     </h2>
-                    <h3 className="text-slate-600 line-through text-2xl">$500</h3>
+                    <h3 className="text-slate-600 line-through text-2xl">${product.price}</h3>
                     <span className="h-5 flex justify-start items-center text-red-500 rounded-md text-sm bg-red-100 p-1 ">
-                      {discount} %
+                      {product.discount} %
                     </span>
                   </>
                 ) : (
                   <>
-                    <h2 className="text-orange-500 text-3xl">$400</h2>
+                    <h2 className="text-orange-500 text-3xl">${product.price}</h2>
                   </>
                 )}
               </div>
               {/* Description */}
               <div className=" text-slate-600 ">
-                <p>
-                  Product is a long established fact that a reader will be distracted by the
-                  readable content of a page when looking at its layout. The point of using Lorem
-                  Ipsum is that it has a more-or-less normal distribution of letters, as opposed to
-                  using 'Content here.
-                </p>
+                <p>{product?.description ? product.description.substring(0, 250) + '...' : ''}</p>
               </div>
               {/*  */}
               <div className="flex xs:flex-col gap-3 pb-10 border-b xs:w-full">
-                {stock ? (
+                {product.stock ? (
                   <>
                     <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl xs:w-full">
-                      <div className="px-6 cursor-pointer"> -</div>
-                      <div className="px-6 "> 2</div>
-                      <div className="px-6 cursor-pointer"> -</div>
+                      <div
+                        onClick={() => Decrement()}
+                        className="px-6 cursor-pointer border-r-2 border-gray-600"
+                      >
+                        {' '}
+                        -{' '}
+                      </div>
+                      <div className="px-6 ">{quantity}</div>
+                      <div
+                        onClick={() => Increment()}
+                        className="px-6 cursor-pointer border-l-2 border-gray-600"
+                      >
+                        {' '}
+                        +
+                      </div>
                     </div>
                     <div className="xs:w-full">
-                      <button className="w-full flex justify-center items-center gap-2 px-8 py-3 h-[50px] cursor-pointer text-white font-semibold hover:shadow-md hover:shadow-[#34548d] bg-[#34548d]">
+                      <button
+                        onClick={() => add_to_cart(product._id)}
+                        className="w-full flex justify-center items-center gap-2 px-8 py-3 h-[50px] cursor-pointer text-white font-semibold hover:shadow-md hover:shadow-[#34548d] bg-[#34548d]"
+                      >
                         <FaShoppingCart /> <span>Add To Cart</span>
                       </button>
                     </div>
@@ -198,22 +310,25 @@ const Details = () => {
                   ''
                 )}
                 <div
+                  onClick={() => handleAddToWishlist(product)}
                   className="w-[50px] xs:w-full h-[50px] cursor-pointer border-2 border-[#34548d] text-[#34548d] bg-white flex justify-center items-center rounded-sm shadow-md transition-all 
-                  hover:bg-[#34548d] hover:text-white "
+                  hover:bg-[#34548d] hover:text-white hover:rotate-[360deg] transform ease-in-out duration-200"
                 >
                   <FaHeart size={24} />
                 </div>
               </div>
               {/* End show add to cart  */}
               <div className="flex justify-start items-center py-5 gap-5">
-                <div className="w-[150px] text-slate-600 font-bold text-xl flex flex-col gap-5">
+                <div className="w-[150px] text-slate-600 font-bold text-xl flex flex-col justify-start items-start  gap-5">
                   <span>Availability</span>
                   <span>Share On</span>
                 </div>
-                <div className="flex flex-col gap-5">
-                  <span className={`text-${stock ? 'green-500' : 'red-500'}`}>
-                    {stock ? `In Stock(${stock})` : 'Out Of Stock'}
-                  </span>
+                <div className="flex flex-col justify-start items-start gap-5">
+                  <div className="pt-3">
+                    <span className={`text-${product.stock ? 'green-500' : 'red-500'}`}>
+                      {product.stock ? `In Stock(${product.stock})` : 'Out Of Stock'}
+                    </span>
+                  </div>
                   <ul className="flex justify-start items-center gap-3 ">
                     <li>
                       <Link
@@ -251,8 +366,11 @@ const Details = () => {
                 </div>
               </div>
               <div className="flex gap-3">
-                {stock ? (
-                  <button className="flex justify-center items-center gap-2 px-8 py-3 h-[50px] cursor-pointer text-white font-semibold hover:shadow-md hover:shadow-[#34548d] bg-[#34548d]">
+                {product.stock ? (
+                  <button
+                    onClick={handleBuyNow}
+                    className="flex justify-center items-center gap-2 px-8 py-3 h-[50px] cursor-pointer text-white font-semibold hover:shadow-md hover:shadow-[#34548d] bg-[#34548d]"
+                  >
                     <BsFillCartCheckFill size={20} /> <span>Buy Now</span>
                   </button>
                 ) : (
@@ -300,18 +418,7 @@ const Details = () => {
                   {state === 'reviews' ? (
                     <Reviews />
                   ) : (
-                    <p className="py-5 text-slate-600">
-                      Contrary to popular belief, Lorem Ipsum is not simply random text. It has
-                      roots in a piece of classical Latin literature from 45 BC, making it over 2000
-                      years old. Richard McClintock, a Latin professor at Hampden-Sydney College in
-                      Virginia, looked up one of the more obscure Latin words, consectetur, from a
-                      Lorem Ipsum passage, and going through the cites of the word in classical
-                      literature, discovered the undoubtable source. Lorem Ipsum comes from sections
-                      1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good
-                      and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory
-                      of ethics, very popular during the Renaissance. The first line of Lorem Ipsum,
-                      "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                    </p>
+                    <p className="py-5 text-slate-600">{product.description}</p>
                   )}
                 </div>
               </div>
@@ -321,34 +428,48 @@ const Details = () => {
               <div className="pl-4 md-lg:pl-0">
                 <div className="px-3 py-1.5 text-slate-600 bg-slate-200 gap-1 flex justify-start items-center rounded-sm">
                   <BsShop />
-                  <h2 className="text-xl font-bold">Thanh Shop</h2>
+                  <h2 className="text-xl font-bold">{product.shopName}</h2>
                 </div>
-                <div className="flex flex-col gap-5 mt-3 p-3">
-                  {[1, 2, 3].map((p, j) => (
+                <div className="flex flex-col gap-2 mt-3 py-3">
+                  {moreProducts.map((p, j) => (
                     <Link
                       key={j}
                       to="#"
-                      className="flex justify-start items-start transition-all duration-500 hover:scale-105 hover:shadow-lg relative"
+                      className="flex justify-start items-start transition-all duration-500 hover:scale-105 hover:shadow-lg relative p-2 shadow rounded-md"
                     >
-                      {discount !== 0 && (
+                      {p.discount !== 0 && (
                         <div className="flex justify-center items-center absolute text-white w-6 h-6 rounded-full shadow-md bg-red-500 font-semibold text-xs left-1 top-1">
-                          {discount}%
+                          {p.discount}%
                         </div>
                       )}
 
                       <img
-                        src={`${config.BASE_URL}/images/products/${p}.webp`}
+                        src={p.images[0]}
                         alt=""
-                        className="w-[110px] h-[110px] rounded-md"
+                        className="min-w-20 h-20 object-contain rounded-md"
                       />
                       <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
-                        <h2 className="font-bold">Product Name</h2>
+                        <Link to={`/product/details/${p.slug}`} className="text-lg font-bold">
+                          {p?.name}
+                        </Link>
                         <div className="flex flex-col justify-start items-start gap-3">
-                          <div className="text-md font-semibold"> $3443</div>
-                          <div className="flex justify-center items-center">
-                            <Rating ratings={4.5} />
-                            <span className="text-[#34548d] text-sm">(23)</span>
+                          <div className="text-md font-bold">
+                            <span className={`${p.discount > 0 ? 'line-through' : ''}`}>
+                              ${p.price}
+                            </span>{' '}
+                            {p.discount > 0 && (
+                              <span className="text-orange-500">
+                                {' '}
+                                ${p.price - Math.floor((p.price * p.discount) / 100)}
+                              </span>
+                            )}
                           </div>
+                          {p.rating > 0 && (
+                            <div className="flex justify-center items-center">
+                              <Rating ratings={p.rating} />
+                              <span className="text-[#34548d] text-sm">(23)</span>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </Link>
@@ -373,41 +494,39 @@ const Details = () => {
               modules={[Pagination]}
               className="mySwiper"
             >
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((p, i) => (
+              {relatedProducts.map((p, i) => (
                 <SwiperSlide>
                   <div
                     key={i}
-                    className=" group transition-all duration-500 border rounded-md shadow-md hover:shadow-md hover:-mt-3"
+                    className="group transition-all duration-500 border rounded-md shadow-md hover:shadow-lg hover:shadow-indigo-200"
                   >
                     <div className="relative overflow-hidden ">
-                      {discount !== 0 && (
+                      {p.discount > 0 && (
                         <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full shadow-md bg-red-500 font-semibold text-xs left-2 top-2">
-                          {discount}%
+                          {p.discount}%
                         </div>
                       )}
 
                       <div className="flex w-full h-[210px] justify-center items-center">
-                        <img
-                          src={`${config.BASE_URL}/images/products/${p}.webp`}
-                          alt=""
-                          className="w-auto h-full"
-                        />
+                        <img src={p.images[0]} alt="" className="w-auto h-full" />
                       </div>
                       <ul className="flex absolute transition-all duration-700 -bottom-10 justify-center items-center gap-2 w-full group-hover:bottom-5">
                         <Link
-                          to={`/product/details/1344322`}
+                          to={`/product/details/${p.slug}`}
                           className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full shadow-md transition-all 
                           hover:bg-[#34548d] hover:text-white hover:rotate-[720deg]"
                         >
                           <FaEye />
                         </Link>
                         <li
+                          onClick={() => handleAddToWishlist(p)}
                           className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full shadow-md transition-all 
                             hover:bg-[#34548d] hover:text-white hover:rotate-[720deg]"
                         >
                           <FaRegHeart />
                         </li>
                         <li
+                          onClick={() => add_to_cart(p._id)}
                           className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full shadow-md transition-all 
                               hover:bg-[#34548d] hover:text-white hover:rotate-[720deg]"
                         >
@@ -417,12 +536,35 @@ const Details = () => {
                       {/*  */}
                     </div>
                     <div className="py-3 px-4 text-slate-600 ">
-                      <h2 className="font-bold">Product Name</h2>
+                      <div className="min-h-14">
+                        <Link to={`/product/details/${p.slug}`} className="text-lg font-bold">
+                          {p?.name}
+                        </Link>
+                      </div>
+
                       <div className="flex justify-start items-center gap-3">
-                        <div className="text-md font-semibold"> $3443</div>
-                        <div className="flex ">
-                          <Rating ratings={4.5} />
+                        <div className="text-md font-bold">
+                          <span className={`${p.discount > 0 ? 'line-through' : ''}`}>
+                            ${p.price}
+                          </span>{' '}
+                          {p.discount > 0 && (
+                            <span className="text-orange-500">
+                              {' '}
+                              ${p.price - Math.floor((p.price * p.discount) / 100)}
+                            </span>
+                          )}
                         </div>
+                        {p.rating > 0 && (
+                          <div className="flex justify-center items-center">
+                            <Rating ratings={p.rating} />
+                            <span className="text-[#34548d] text-sm">(23)</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="text-md font-base">
+                        <p>
+                          {product?.description ? product.description.substring(0, 50) + '...' : ''}
+                        </p>
                       </div>
                     </div>
                   </div>

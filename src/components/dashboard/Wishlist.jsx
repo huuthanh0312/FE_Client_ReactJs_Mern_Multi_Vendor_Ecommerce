@@ -1,50 +1,100 @@
-import React from 'react'
-import { FaEye, FaRegHeart } from 'react-icons/fa'
+import React, { useEffect, useState } from 'react'
+import { FaEye, FaRegHeart, FaTrashAlt } from 'react-icons/fa'
 import { RiShoppingCartLine } from 'react-icons/ri'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  addToCart,
+  getWishlistProducts,
+  removeWishlistProduct
+} from './../../store/Reducers/cartReducer'
+import Rating from './../Rating'
+import toast from 'react-hot-toast'
+import { messageClear } from '../../store/Reducers/homeReducer'
 
 const Wishlist = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { userInfo } = useSelector((state) => state.auth)
+  const { wishlist_count, wishlists, errorMessage, successMessage } = useSelector(
+    (state) => state.cart
+  ) //state loader
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getWishlistProducts(userInfo.id))
+    }
+  }, [])
+
+  // use Effect check toast message error
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage)
+      dispatch(messageClear()) //message clear function reudx
+    }
+    if (successMessage) {
+      toast.success(successMessage)
+      dispatch(messageClear()) //message clear function reudx
+    }
+  }, [errorMessage, successMessage])
+
+  // handle add to cart
+  const add_to_cart = (id) => {
+    if (userInfo) {
+      dispatch(addToCart({ userId: userInfo.id, quantity: 1, productId: id }))
+    } else {
+      navigate('/login')
+    }
+  }
+  // remove Wishlist Product
+  const handleRemoveWishlistProduct = (wishlistId) => {
+    dispatch(removeWishlistProduct(wishlistId))
+  }
   return (
     <div>
       <div className="p-4 bg-white mb-5 rounded-md flex justify-between items-center border">
         <h2 className="text-lg font-medium text-slate-600">
-          <span className="text-orange-500">12</span> Products Wishlist
+          <span className="text-orange-500">{wishlist_count > 0 ? wishlist_count : 0}</span>{' '}
+          Products Wishlist
         </h2>
       </div>
       {/*end grid */}
       <div className="w-full grid grid-cols-5 2xl:grid-cols-4 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5">
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((p, i) => (
+        {wishlists.map((p, i) => (
           <div
             key={i}
             className="h-full bg-white group border rounded-md shadow-md hover:shadow-md"
           >
             <div className="relative overflow-hidden ">
-              <div className="flex justify-center items-center absolute text-white w-[35px] h-[35px] rounded-full shadow-md bg-red-500 font-semibold text-xs left-2 top-2 z-10">
-                10%
-              </div>
-
+              {p.discount > 0 && (
+                <div className="flex justify-center items-center absolute text-white w-[35px] h-[35px] rounded-full shadow-md bg-red-500 font-semibold text-xs left-2 top-2 z-10">
+                  {p.discount}%
+                </div>
+              )}
+              <button
+                onClick={() => handleRemoveWishlistProduct(p._id)}
+                className="w-[35px] h-[35px] cursor-pointer bg-white flex justify-center items-center rounded-full shadow-md transition-all 
+                  hover:bg-red-200 hover:rotate-[720deg] text-red-600 absolute right-2 top-2 z-10"
+              >
+                <FaTrashAlt />
+              </button>
               <div className="flex w-full h-[210px] justify-center items-center ">
                 <img
-                  src=""
+                  src={p.image}
                   alt=""
                   className="w-auto h-full object-contain hover:scale-110 transition-all duration-500"
                 />
               </div>
               <ul className="flex absolute transition-all duration-700 -bottom-10 justify-center items-center gap-2 w-full group-hover:bottom-5">
                 <Link
-                  to={`/product/details/1344322`}
+                  to={`/product/details/${p.slug}`}
                   className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full shadow-md transition-all 
                   hover:bg-[#34548d] hover:text-white hover:rotate-[720deg]"
                 >
                   <FaEye />
                 </Link>
+
                 <li
-                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full shadow-md transition-all 
-                  hover:bg-[#34548d] hover:text-white hover:rotate-[720deg]"
-                >
-                  <FaRegHeart />
-                </li>
-                <li
+                  onClick={() => add_to_cart(p._id)}
                   className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full shadow-md transition-all 
                   hover:bg-[#34548d] hover:text-white hover:rotate-[720deg]"
                 >
@@ -54,15 +104,15 @@ const Wishlist = () => {
               {/*  */}
             </div>
             <div className="py-3 px-5 text-slate-600 flex-grow">
-              <h2 className="font-bold">assfsdfd</h2>
+              <h2 className="font-bold">{p.name}</h2>
               <div className="flex justify-start items-center gap-3">
-                <div className="text-md font-semibold">$232</div>
-                {/* {p.rating > 0 && (
+                <div className="text-md font-semibold">${p.price}</div>
+                {p.rating > 0 && (
                   <div className="flex justify-center items-center ">
                     <Rating ratings={p.rating} />
                     <span className="text-orange-500 text-sm">(23)</span>
                   </div>
-                )} */}
+                )}
               </div>
             </div>
             {/* <div className="pb-5 px-5">

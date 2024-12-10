@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { MdEmail, MdLanguage, MdOutlineEmail } from 'react-icons/md'
-import {
-  IoIosArrowBack,
-  IoIosArrowDown,
-  IoIosArrowUp,
-  IoMdArrowDropdown,
-  IoMdList,
-  IoMdPhonePortrait
-} from 'react-icons/io'
+import { IoIosArrowDown, IoIosArrowUp, IoMdArrowDropdown, IoMdPhonePortrait } from 'react-icons/io'
 import {
   FaFacebookSquare,
   FaGithub,
   FaHeart,
   FaLinkedin,
-  FaLinkedinIn,
   FaList,
-  FaLock,
   FaPhoneAlt,
   FaShoppingCart,
   FaTwitterSquare,
@@ -26,20 +17,18 @@ import config from '../utils/config'
 import { BsList } from 'react-icons/bs'
 import { FaUserAlt } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCartProducts } from '../store/Reducers/cartReducer'
+import { getCartProducts, getWishlistProducts } from '../store/Reducers/cartReducer'
 
 const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { categories } = useSelector((state) => state.home)
   const { userInfo } = useSelector((state) => state.auth)
-  const { cart_product_count } = useSelector((state) => state.cart) //state loader
+  const { cart_product_count, wishlist_count } = useSelector((state) => state.cart) //state loader
 
   const { pathname } = useLocation()
   const [showSidebar, setShowSidebar] = useState(true)
   const [categoryShow, setCategoryShow] = useState(true)
-
-  const whishlist_count = 5
 
   const [searchValue, setSearchValue] = useState('')
   const [category, setCategory] = useState('')
@@ -50,6 +39,7 @@ const Header = () => {
   useEffect(() => {
     if (userInfo) {
       dispatch(getCartProducts(userInfo.id))
+      dispatch(getWishlistProducts(userInfo.id))
     }
   }, [])
   // redirect Cart Page
@@ -60,6 +50,15 @@ const Header = () => {
       navigate('/login')
     }
   }
+  // redirect Cart Page
+  const redirectWishlistPage = () => {
+    if (userInfo) {
+      navigate('/dashboard/wishlist')
+    } else {
+      navigate('/login')
+    }
+  }
+
   return (
     <div className="w-full bg-white mb-5">
       {/* Header top */}
@@ -231,13 +230,18 @@ const Header = () => {
               <div className="flex justify-end items-center flex-wrap">
                 <div className="flex md-lg:hidden justify-center items-center gap-5 ">
                   <div className="flex justify-center gap-5">
-                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
+                    <div
+                      onClick={redirectWishlistPage}
+                      className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
+                    >
                       <span className="text-xl text-[#34548d]">
                         <FaHeart />
                       </span>
-                      <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white text-sm flex justify-center items-center -top-[3px] -right-[5px]">
-                        {whishlist_count}
-                      </div>
+                      {wishlist_count > 0 && (
+                        <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white text-sm flex justify-center items-center -top-[3px] -right-[5px]">
+                          {wishlist_count}
+                        </div>
+                      )}
                     </div>
                     <div
                       onClick={redirectCartPage}
@@ -257,7 +261,7 @@ const Header = () => {
                         <FaUser />
                       </span>
                       <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                        {whishlist_count}
+                        {wishlist_count}
                       </div>
                     </div> */}
                   </div>

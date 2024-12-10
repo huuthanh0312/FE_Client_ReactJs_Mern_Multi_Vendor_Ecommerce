@@ -45,7 +45,7 @@ function App() {
           <Route path="" element={<Dashboard />}>
             <Route path="" element={<Index />} />
             <Route path="my-orders" element={<Orders />} />
-            <Route path="my-wishlist" element={<Wishlist />} />
+            <Route path="wishlist" element={<Wishlist />} />
             <Route path="change-password" element={<ChangePassword />} />
             <Route path="order/details/:orderId" element={<OrderDetails />} />
           </Route>

@@ -56,7 +56,6 @@ export const queryProducts = createAsyncThunk(
           withCredentials: true
         }
       )
-
       //console.log(data)
       return fulfillWithValue(data)
     } catch (error) {
@@ -64,6 +63,23 @@ export const queryProducts = createAsyncThunk(
     }
   }
 )
+
+// queryProducts details
+export const productDetails = createAsyncThunk(
+  'product/productDetails',
+  async (slug, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      //console.log(slug)
+      const { data } = await api.get(`/home/products/details/${slug}`, { withCredentials: true }
+      )
+      //console.log(data)
+      return fulfillWithValue(data)
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
 
 export const homeReducer = createSlice({
   name: 'home',
@@ -82,7 +98,10 @@ export const homeReducer = createSlice({
       low: 0,
       high: 500
     },
-    parPage: 3
+    parPage: 3,
+    product: {},
+    relatedProducts: [],
+    moreProducts: []
   },
   reducers: {
     // message clear function reudx
@@ -120,6 +139,15 @@ export const homeReducer = createSlice({
         state.products = payload.products
         state.totalProduct = payload.totalProduct
         state.parPage = payload.parPage
+      })
+
+      // Product details
+      .addCase(productDetails.fulfilled, (state, { payload }) => {
+        // get status and data BE success 200
+        state.loader = false
+        state.product = payload.product
+        state.relatedProducts = payload.relatedProducts
+        state.moreProducts = payload.moreProducts
       })
   }
 })

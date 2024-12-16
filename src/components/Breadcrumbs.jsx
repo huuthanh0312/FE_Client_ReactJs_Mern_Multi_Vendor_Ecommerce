@@ -13,7 +13,7 @@ const Breadcrumbs = ({ title, showHome }) => {
       style={{ backgroundImage: `url(${bgBanner})` }}
     >
       <div className="absolute inset-0 bg-[#2422228a]">
-        <div className="w-[90%] h-full mx-auto flex flex-col justify-center items-center text-white gap-2">
+        <div className="container h-full mx-auto flex flex-col justify-center items-center text-white gap-2">
           <h2 className="text-3xl font-bold">{title} Page</h2>
           {showHome && (
             <div className="flex justify-end items-center gap-2 text-2xl">

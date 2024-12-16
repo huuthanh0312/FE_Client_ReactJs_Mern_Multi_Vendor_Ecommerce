@@ -115,15 +115,6 @@ const Wishlist = () => {
                 )}
               </div>
             </div>
-            {/* <div className="pb-5 px-5">
-              <div
-                onClick={() => add_to_cart(p._id)}
-                className="py-2 px-6 xl:px-2 w-30 flex justify-center items-center gap-3 cursor-pointer rounded-full shadow-md transition-all 
-                  bg-[#34548d] hover:bg-white text-white hover:text-[#34548d] border-2 hover:border-[#34548d] "
-              >
-                <RiShoppingCartLine /> <span className="font-bold">Add To Cart</span>
-              </div>
-            </div> */}
           </div>
         ))}
       </div>

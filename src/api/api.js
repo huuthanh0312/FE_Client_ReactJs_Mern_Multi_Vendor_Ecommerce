@@ -1,5 +1,6 @@
 import axios from 'axios'
-const local = 'http://localhost:5000'
+import config from '../utils/config'
+const local = config.API_URL
 const production = ''
 
 const api = axios.create({

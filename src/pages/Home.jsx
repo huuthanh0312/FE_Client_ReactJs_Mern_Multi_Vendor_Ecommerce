@@ -22,7 +22,7 @@ const Home = () => {
       <Banner />
       <Category />
       <FeatureProducts products={products} />
-      <div className="w-[90%] flex flex-wrap mx-auto py-8">
+      <div className="container flex flex-wrap mx-auto py-8">
         <div className="w-full grid grid-cols-3 md-lg:grid-cols-2 md:grid-cols-1 gap-7">
           <div className="overflow-hidden">
             <Products title="Latest Product" products={latestProducts} />

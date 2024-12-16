@@ -51,20 +51,23 @@ const FeatureProducts = ({ products }) => {
   }
 
   return (
-    <div className="w-[90%] flex flex-wrap mx-auto py-8">
-      <div className="w-full ">
+    <div className="container flex flex-wrap mx-auto py-8">
+      <div className="w-full">
         <div className="text-center flex justify-center items-center flex-col text-4xl text-slate-600 font-bold relative pb-[45px] ">
           <h2>Feature Products</h2>
           <div className="w-[180px] h-[2px] bg-[#34548d] mt-4"></div>
         </div>
       </div>
       {/*  */}
-      <div className="w-full grid grid-cols-4 xl:grid-cols-3 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
+      <div className="w-full grid grid-cols-5 2xl:grid-cols-4 xl:grid-cols-3 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-5 bg-slate-200 p-5 rounded-md">
         {products.map((p, i) => (
-          <div key={i} className="h-full group border rounded-md shadow-md hover:shadow-md">
+          <div
+            key={i}
+            className="h-full group border rounded-md shadow-md hover:shadow-indigo-400 bg-white xs:px-2"
+          >
             <div className="relative overflow-hidden ">
               {p.discount > 0 && (
-                <div className="flex justify-center items-center absolute text-white w-[35px] h-[35px] rounded-full shadow-md bg-red-500 font-semibold text-xs left-2 top-2 z-10">
+                <div className="flex justify-center items-center absolute text-white w-[35px] xs:w-[25px] h-[35px] xs:h-[25px] rounded-full shadow-md bg-red-500 font-semibold text-xs xs:text-[8px] left-2 xs:left-0 top-2 z-10">
                   {p.discount}%
                 </div>
               )}
@@ -73,7 +76,7 @@ const FeatureProducts = ({ products }) => {
                 <img
                   src={p.images[0]}
                   alt=""
-                  className="w-auto h-full object-contain hover:scale-110 transition-all duration-500"
+                  className="w-auto h-full object-contain hover:scale-110 transition-all duration-500 px-1"
                 />
               </div>
               <ul className="flex absolute transition-all duration-700 -bottom-10 justify-center items-center gap-2 w-full group-hover:bottom-5">
@@ -101,9 +104,9 @@ const FeatureProducts = ({ products }) => {
               </ul>
               {/*  */}
             </div>
-            <div className="py-3 px-5 text-slate-600 flex-grow">
+            <div className="py-3 px-5 xs:p-0 text-slate-600 flex-grow">
               <h2 className="font-bold">{p.name}</h2>
-              <div className="flex justify-start items-center gap-3">
+              <div className="flex xs:flex-col justify-start items-center xs:items-start gap-3 xs:gap-1">
                 <div className="text-md font-semibold">${p.price}</div>
                 {p.rating > 0 && (
                   <div className="flex justify-center items-center ">

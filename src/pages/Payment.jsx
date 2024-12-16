@@ -15,7 +15,7 @@ const Payment = () => {
     <div>
       <Header />
       <section className="bg-[#eeeeee]">
-        <div className="w-[90%] mx-auto py-16 mt-4">
+        <div className="container mx-auto py-16 mt-4">
           <div className="flex flex-wrap md:flex-col-reverse">
             <div className="w-7/12 md:w-full">
               <div className="pr-2 md:pr-0 ">

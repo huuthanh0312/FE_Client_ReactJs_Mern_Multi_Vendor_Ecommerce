@@ -71,8 +71,8 @@ const Shop = () => {
       {/*Section  Breadcrumbs */}
       <Breadcrumbs title="Shop" showHome={true} />
       {/*  */}
-      <section className="py-16 bg-[#eeeeee]">
-        <div className="w-[90%] h-full mx-auto ">
+      <section className="py-16 bg-slate-200">
+        <div className="container h-full mx-auto ">
           <div className={`md:block hidden ${!filter ? 'mb-6' : 'mb-0'}`}>
             <button
               onClick={() => setFilter(!filter)}

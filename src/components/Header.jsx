@@ -53,7 +53,7 @@ const Header = () => {
   // redirect Cart Page
   const redirectWishlistPage = () => {
     if (userInfo) {
-      navigate('/dashboard/wishlist')
+      navigate('/dashboard/my-wishlists')
     } else {
       navigate('/login')
     }
@@ -63,7 +63,7 @@ const Header = () => {
     <div className="w-full bg-white mb-5">
       {/* Header top */}
       <div className="header-top bg-[#010101] md-lg:hidden">
-        <div className="w-[90%] mx-auto">
+        <div className="container mx-auto">
           <div className="flex w-full justify-between items-center h-[45px] text-slate-500">
             <ul className="flex justify-start items-center gap-8 font-semibold text-white">
               <li className="flex relative justify-center items-center text-sm gap-2 after:absolute after:h-[18px] after:w-[2px] after:bg-[#afafaf] after:-right-[16px]">
@@ -143,7 +143,7 @@ const Header = () => {
       {/* End header top */}
       {/* Sidebar header*/}
       <div className="w-white ">
-        <div className="w-[90%] mx-auto">
+        <div className="container mx-auto">
           <div className="h-[80px] md-lg:h-[100px] justify-between items-center flex flex-wrap ">
             <div className="md-lg:w-full w-3/12 md-lg:pt-4">
               <div className="flex justify-between items-center">
@@ -430,7 +430,7 @@ const Header = () => {
       </div>
       {/*End Sidebar */}
       {/* Category and search */}
-      <div className="w-[90%] mx-auto">
+      <div className="container mx-auto">
         <div className="flex w-full flex-wrap md-lg:gap-8">
           <div className="w-3/12 md-lg:w-full">
             <div className="bg-white relative">

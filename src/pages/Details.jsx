@@ -180,7 +180,7 @@ const Details = () => {
       <Breadcrumbs title="Product Details" showHome={true} />
       {/* End Breadcrumbs */}
       <section className="bg-slate-100">
-        <div className="w-[90%] mx-auto py-6">
+        <div className="container mx-auto py-6">
           <div className="flex justify-start items-center text-md text-slate-600 w-full hover:text-[#34548d] gap-2 px-1">
             <Link to="/" className="inline-flex justify-center items-center gap-2 ">
               <FaHome size={20} />
@@ -202,7 +202,7 @@ const Details = () => {
         </div>
       </section>
       <section className="bg-white">
-        <div className="w-[90%] mx-auto py-12">
+        <div className="container mx-auto py-12">
           <div className="grid grid-cols-2 md-lg:grid-cols-1 gap-8">
             <div className="">
               <div className="p-5 border rounded-md m-1 shadow-lg">
@@ -382,7 +382,7 @@ const Details = () => {
                   ''
                 )}
                 <Link
-                  to="#"
+                  to={`/dashboard/chat/${product.sellerId}`}
                   className="flex justify-center items-center gap-2 px-8 py-3 h-[50px] cursor-pointer text-white font-semibold hover:shadow-md hover:shadow-[#34548d] bg-blue-500"
                 >
                   <FaFacebookMessenger size={20} /> <span>Chat Seller</span>
@@ -393,7 +393,7 @@ const Details = () => {
         </div>
       </section>
       <section className="bg-white">
-        <div className="w-[90%] h-full mx-auto pb-12">
+        <div className="container h-full mx-auto pb-12">
           <div className="flex flex-wrap">
             <div className="w-[72%] md-lg:w-full">
               <div className="pr-4 md-lg:pr-0">
@@ -487,7 +487,7 @@ const Details = () => {
       </section>
       {/* End Review And description */}
       <section className="bg-white border-t">
-        <div className="w-[90%] h-full mx-auto pb-12">
+        <div className="container h-full mx-auto pb-12">
           <h2 className="text-2xl font-bold py-8 text-slate-600">Related Products</h2>
           <div className="">
             <Swiper

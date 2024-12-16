@@ -26,7 +26,7 @@ const Banner = () => {
 
   return (
     <div className="w-full md-lg:mt-6">
-      <div className="w-[90%] mx-auto">
+      <div className="container mx-auto">
         <div className="w-full flex flex-wrap md-lg:gap-8">
           <div className="w-full">
             <div className="my-8">

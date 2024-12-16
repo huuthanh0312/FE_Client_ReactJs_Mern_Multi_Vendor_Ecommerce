@@ -66,7 +66,7 @@ const Shipping = () => {
       <Breadcrumbs title="Shipping" showHome={true} />
       {/* End Breadcrumbs */}
       <section className="bg-[#eeeeee]">
-        <div className="w-[90%] mx-auto py-16">
+        <div className="container mx-auto py-16">
           <div className="flex flex-wrap">
             <div className="w-[67%] md-lg:w-full">
               <div className="flex flex-col gap-3">

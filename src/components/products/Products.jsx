@@ -29,7 +29,7 @@ const Products = ({ title, products }) => {
     return (
       <div className="flex justify-between items-center text-slate-600">
         <div className="text-2xl font-bold ">{title}</div>
-        <div className="flex justify-center items-center gap-3 lg:px-2">
+        <div className="flex justify-center items-center gap-3 px-2">
           <button
             onClick={() => previous()}
             className="w-[30px] h-[30px] flex justify-center items-center bg-slate-300 border border-slate-200"
@@ -48,7 +48,7 @@ const Products = ({ title, products }) => {
   }
   // const ButtonGroup = () => {}
   return (
-    <div className="flex gap-8 flex-col-reverse">
+    <div className="flex gap-4 flex-col-reverse">
       <Carousel
         autoPlay={false}
         infinite={false}
@@ -59,12 +59,15 @@ const Products = ({ title, products }) => {
         customButtonGroup={<ButtonGroup />}
       >
         {products.map((productRow, i) => (
-          <div key={i} className="flex flex-col justify-start gap-3">
+          <div
+            key={i}
+            className="flex flex-col justify-start gap-3 p-3 bg-slate-200 shadow rounded-md min-h-[335px]"
+          >
             {productRow.map((p, j) => (
               <Link
                 key={j}
                 to="#"
-                className="flex justify-start items-center px-1 transition-all duration-500 hover:scale-95 rounded-md shadow-lg relative"
+                className="flex justify-start items-center p-2 transition-all duration-500 rounded-md shadow relative bg-white hover:shadow-indigo-500"
               >
                 {p.discount > 0 && (
                   <div className="flex justify-center items-center absolute text-white w-[24px] h-[24px] p-1 rounded-full shadow-md bg-red-500 font-semibold text-[10px] left-1 top-1">

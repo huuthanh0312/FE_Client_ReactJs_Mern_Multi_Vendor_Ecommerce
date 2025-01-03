@@ -19,12 +19,9 @@ const Orders = () => {
   }, [dispatch, userInfo?.id, statusListOrder])
 
   // handle PayNow
-  const handlePayNow = (orders) => {
-    let items = 0
-    for (let i = 0; i < orders.length; i++) {
-      items = orders.products[i].quantity + items
-    }
-    navigate('/payment', { state: { price: orders.price, items, orderId: orders.Id } })
+  const handlePaymentOrder = (o) => {
+    const items = o.products.reduce((total, product) => total + product.quantity, 0)
+    navigate('/payment', { state: { price: o.price, items, orderId: o._id } })
   }
   return (
     <div>
@@ -80,7 +77,7 @@ const Orders = () => {
                       </Link>
                       {o.payment_status !== 'paid' && (
                         <button
-                          onClick={() => handlePayNow(o)}
+                          onClick={() => handlePaymentOrder(o)}
                           className="bg-blue-200 text-blue-700 text-md font-semibold mr-2 px-3 py-1 rounded shadow-sm cursor-pointer hover:shadow-blue-600 "
                         >
                           Pay Now

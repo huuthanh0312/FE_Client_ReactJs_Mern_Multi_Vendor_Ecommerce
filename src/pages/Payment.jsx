@@ -7,9 +7,8 @@ import Stripe from '../components/Stripe'
 import { MdOutlinePayments } from 'react-icons/md'
 
 const Payment = () => {
-  const {
-    state: { price, items, orderId }
-  } = useLocation()
+  const location = useLocation()
+  const { price, items, orderId } = location.state || {}
   const [paymentMethod, setPaymentMethod] = useState('stripe')
   return (
     <div>
@@ -32,7 +31,7 @@ const Payment = () => {
                     <span className="text-slate-600">Stripe</span>
                   </div>
                   <div
-                    className={`w-[20%] border-r   cursor-pointer py-8 px-12 ${
+                    className={`w-[20%] border-r cursor-pointer py-8 px-12 ${
                       paymentMethod === 'cod' ? 'bg-white' : 'bg-slate-100'
                     }`}
                     onClick={() => setPaymentMethod('cod')}
@@ -46,8 +45,8 @@ const Payment = () => {
               </div>
               {/*  */}
               {paymentMethod === 'stripe' && (
-                <div className="">
-                  <Stripe />
+                <div className="w-full px-5 py-8 bg-white shadow-sm ">
+                  <Stripe orderId={orderId} price={price} />
                 </div>
               )}
               {paymentMethod === 'cod' && (
@@ -62,7 +61,7 @@ const Payment = () => {
             <div className="w-5/12 md:w-full">
               <div className="pl-5 md:pl-0 md:mb-0">
                 <div className="bg-white p-5 text-slate-600 flex flex-col gap-3 rounded-md shadow-md hover:shadow-indigo-200">
-                  <div className="border-b py-4 ">
+                  <div className="border-b pb-3 ">
                     <h2 className="text-xl text-[#34548d] font-bold uppercase">Order Sumary</h2>
                   </div>
                   <div className="flex justify-between items-center">

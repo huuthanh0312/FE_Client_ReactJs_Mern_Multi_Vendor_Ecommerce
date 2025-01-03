@@ -95,6 +95,7 @@ const Chat = () => {
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [frMessages])
+
   return (
     <div>
       <div className="bg-white px-5 py-2 rounded-md shadow">
@@ -229,11 +230,9 @@ const Chat = () => {
               </div>
             ) : (
               <div className="w-full h-full flex justify-center items-center text-lg bg-slate-200 rounded-md overflow-hidden">
-                <div className="">
-                  <div className="flex items-center gap-2 font-medium ">
-                    <PiSelectionAllBold size={28} />
-                    <span>Select Seller ...</span>
-                  </div>
+                <div className="flex items-center gap-2 font-medium text-slate-600">
+                  <PiSelectionAllBold size={28} />
+                  <span>Select Seller ...</span>
                 </div>
               </div>
             )}

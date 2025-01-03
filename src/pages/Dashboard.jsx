@@ -3,16 +3,22 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { FaHeart, FaList } from 'react-icons/fa'
 import { useState } from 'react'
-import { Link, Outlet, useLocation } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { IoIosHome } from 'react-icons/io'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { MdMessage } from 'react-icons/md'
 import { BsCartCheckFill } from 'react-icons/bs'
 import { FaSignOutAlt } from 'react-icons/fa'
 import { FaListCheck } from 'react-icons/fa6'
+import { useDispatch } from 'react-redux'
+import { resetCart } from '../store/Reducers/cartReducer'
+import { resetUser } from '../store/Reducers/authReducer'
+import api from '../api/api'
 
 const Dashboard = () => {
   const { pathname } = useLocation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   //console.log(pathname)
   const [filterShow, setFilterShow] = useState(false)
   // Hàm theo dõi kích thước màn hình
@@ -31,6 +37,17 @@ const Dashboard = () => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
+  //handle Logout
+  const logout = async () => {
+    try {
+      const { data } = await api.get('customer/logout')
+      localStorage.removeItem('customerToken')
+      dispatch(resetUser())
+      dispatch(resetCart())
+      navigate('/login')
+    } catch (error) {}
+  }
   return (
     <div>
       <Header />
@@ -120,7 +137,10 @@ const Dashboard = () => {
                   </Link>
                 </li>
                 <li>
-                  <button className="text-[#383737] font-bold duration-200 hover:bg-indigo-50 cursor-pointer px-3 py-2 rounded-md flex justify-start items-center gap-2 hover:pl-4 transition-all w-full mb-1 border-t">
+                  <button
+                    onClick={logout}
+                    className="text-[#383737] font-bold hover:bg-indigo-50 cursor-pointer px-3 py-2 rounded-md flex justify-start items-center gap-2 hover:pl-4 w-full mb-1 border-t active:scale-95 active:translate-y-[2px] transform transition-all duration-200 ease-in-out"
+                  >
                     <span>
                       <FaSignOutAlt />
                     </span>

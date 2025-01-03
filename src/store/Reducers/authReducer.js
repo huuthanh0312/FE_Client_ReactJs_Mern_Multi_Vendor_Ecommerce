@@ -33,8 +33,6 @@ export const customer_register = createAsyncThunk(
   }
 )
 
-
-
 //decoding token check duration token
 const decodeToken = (token) => {
   if (token) {
@@ -57,7 +55,7 @@ export const authReducer = createSlice({
     successMessage: '',
     errorMessage: '',
     loader: false,
-    userInfo: decodeToken(localStorage.getItem('customerToken')),
+    userInfo: decodeToken(localStorage.getItem('customerToken'))
     // token: localStorage.getItem('customerToken')
   },
   reducers: {
@@ -65,6 +63,9 @@ export const authReducer = createSlice({
     messageClear: (state, _) => {
       state.errorMessage = ''
       state.successMessage = ''
+    },
+    resetUser: (state, _) => {
+      state.userInfo = ''
     }
   },
   // loader check state
@@ -106,9 +107,8 @@ export const authReducer = createSlice({
         // state.token = payload.token
         state.userInfo = userInfo
       })
-
   }
 })
 
-export const { messageClear } = authReducer.actions
+export const { messageClear, resetUser } = authReducer.actions
 export default authReducer.reducer

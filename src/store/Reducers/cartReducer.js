@@ -35,7 +35,9 @@ export const deleteCartProduct = createAsyncThunk(
   async (cartId, { rejectWithValue, fulfillWithValue }) => {
     //console.log(info)
     try {
-      const { data } = await api.delete(`/home/cart/delete-product/${cartId}`, { withCredentials: true })
+      const { data } = await api.delete(`/home/cart/delete-product/${cartId}`, {
+        withCredentials: true
+      })
       return fulfillWithValue(data)
     } catch (error) {
       return rejectWithValue(error.response.data)
@@ -49,7 +51,9 @@ export const quantityIncrease = createAsyncThunk(
   async (cartId, { rejectWithValue, fulfillWithValue }) => {
     //console.log(cartId)
     try {
-      const { data } = await api.put(`/home/cart/quantity-increase/${cartId}`, { withCredentials: true })
+      const { data } = await api.put(`/home/cart/quantity-increase/${cartId}`, {
+        withCredentials: true
+      })
       return fulfillWithValue(data)
     } catch (error) {
       return rejectWithValue(error.response.data)
@@ -63,14 +67,15 @@ export const quantityDecrease = createAsyncThunk(
   async (cartId, { rejectWithValue, fulfillWithValue }) => {
     //console.log(cartId)
     try {
-      const { data } = await api.put(`/home/cart/quantity-decrease/${cartId}`, { withCredentials: true })
+      const { data } = await api.put(`/home/cart/quantity-decrease/${cartId}`, {
+        withCredentials: true
+      })
       return fulfillWithValue(data)
     } catch (error) {
       return rejectWithValue(error.response.data)
     }
   }
 )
-
 
 // Add Product to wishlist
 export const addToWishlist = createAsyncThunk(
@@ -100,21 +105,21 @@ export const getWishlistProducts = createAsyncThunk(
   }
 )
 
-
 // Get Product to wishlist
 export const removeWishlistProduct = createAsyncThunk(
   'cart/removeWishlistProduct',
   async (wishlistId, { rejectWithValue, fulfillWithValue }) => {
     //console.log(info)
     try {
-      const { data } = await api.delete(`/home/products/wishlist/${wishlistId}`, { withCredentials: true })
+      const { data } = await api.delete(`/home/products/wishlist/${wishlistId}`, {
+        withCredentials: true
+      })
       return fulfillWithValue(data)
     } catch (error) {
       return rejectWithValue(error.response.data)
     }
   }
 )
-
 
 export const cartReducer = createSlice({
   name: 'cart',
@@ -129,14 +134,17 @@ export const cartReducer = createSlice({
     price: 0,
     shipping_fee: 0,
     outOfStockProducts: [],
-    buy_product_item: 0,
-
+    buy_product_item: 0
   },
   reducers: {
     // message clear function reudx
     messageClear: (state, _) => {
       state.errorMessage = ''
       state.successMessage = ''
+    },
+    resetCart: (state, _) => {
+      state.cart_product_count = 0
+      state.wishlist_count = 0
     }
   },
   // loader check state
@@ -219,12 +227,11 @@ export const cartReducer = createSlice({
         // get status and data BE success 200
         state.loader = false
         state.successMessage = payload.message
-        state.wishlists = state.wishlists.filter(p => p._id !== payload.wishlistId)
+        state.wishlists = state.wishlists.filter((p) => p._id !== payload.wishlistId)
         state.wishlist_count = payload.wishlist_count - 1
       })
-
   }
 })
 
-export const { messageClear } = cartReducer.actions
+export const { messageClear, resetCart } = cartReducer.actions
 export default cartReducer.reducer
